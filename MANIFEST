@@ -1,0 +1,11 @@
+Changes
+lib/Bullwinkle.pm
+lib/Bullwinkle/Client.pm
+lib/Bullwinkle/Server.pm
+Makefile.PL
+MANIFEST			This list of files
+README
+t/00.load.t
+t/perlcritic.t
+t/pod-coverage.t
+t/pod.t
