@@ -24,7 +24,7 @@ has 'quit' => (
 		};
 	},
 );
-has 'continue' => (
+has 'continue_null' => (
 	is      => 'ro',
 	default => sub {
 		my $self = shift;
@@ -102,7 +102,7 @@ Provides the Message blocks for the Bullwinkle Test Client
 
 =over 4
 
-=item *	continue
+=item *	continue_null
 
 =item *	continue_file
 

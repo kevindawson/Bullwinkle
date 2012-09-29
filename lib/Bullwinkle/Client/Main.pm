@@ -42,6 +42,7 @@ my $connect_flag = 0;
 say 'run';
 
 
+
 #######
 # button event handlers
 #######
@@ -168,7 +169,7 @@ sub status {
 		my $output = Data::Dumper::Dumper( $commands->status );
 		$self->client_perl->SetValue($output);
 		$self->on_encode_clicked;
-
+		
 		try {
 			print {$socket} JSON::XS->new->utf8->encode( $commands->status ) . "\n";
 			$socket->recv( $data, 1024 );
@@ -223,7 +224,7 @@ sub auto_run {
 sub continue_null {
 	my $self = shift;
 
-	my $output = Data::Dumper::Dumper( $commands->continue );
+	my $output = Data::Dumper::Dumper( $commands->continue_null );
 	$self->client_perl->SetValue($output);
 	$self->auto_run;
 
