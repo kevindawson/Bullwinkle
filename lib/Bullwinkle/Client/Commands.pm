@@ -103,27 +103,19 @@ Channels respectively serviced known to us.
 
 =over 4
 
-=item *	Codepeek
 
-=item *	Debian
+=item *	continue
 
-=item *	Gist
+=item *	continue_file
 
-=item *	PastebinCom
+=item *	continue_function
 
-=item *	Pastie
+=item *	continue_line
 
-=item *	Shadowcat
+=item *	quit
 
-=item *	Snitch
+=item *	status
 
-=item *	Ubuntu
-
-=item *	channels
-
-=item *	servers
-
-=item *	ssh
 
 =back
 

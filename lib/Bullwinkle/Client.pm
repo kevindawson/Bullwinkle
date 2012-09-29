@@ -72,6 +72,11 @@ This document describes Bullwinkle::Client version  0.01_01
     exported, or methods that may be called on objects belonging to the
     classes provided by the module.
 
+=head1 METHODS
+
+=item * run
+
+=item * OnInit
 
 =head1 DIAGNOSTICS
 
