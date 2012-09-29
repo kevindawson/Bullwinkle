@@ -1,7 +1,5 @@
 #!/usr/bin/perl
 
-## no critic
-
 use v5.10;
 use utf8;
 use strict;
@@ -17,6 +15,7 @@ use Bullwinkle::Server ();
 our $VERSION = '0.01_01';
 
 my $server = Bullwinkle::Server->new( api => 'bullwinkle', port => '9000', host => '127.0.0.1', file => 'test.pl', );
+
 # my $server = Bullwinkle::Server->new( api => 'bullwinkle', port => '9000', host => '127.0.0.1', );
 # my $server = Bullwinkle::Server->new( api => 'bullwinkle', port => '9000', file => 'test.pl', );
 # my $server = Bullwinkle::Server->new( api => 'bullwinkle', host => '127.0.0.1', file => 'test.pl', );

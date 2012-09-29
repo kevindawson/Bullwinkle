@@ -7,9 +7,9 @@ use warnings;
 use Wx 0.99 ':everything';
 
 our $VERSION = '0.01_01';
-use parent qw( 
-	Wx::App 	
-	);
+use parent qw(
+	Wx::App
+);
 
 sub run {
 	my $class = shift;
@@ -28,7 +28,7 @@ sub OnInit {
 	unless ( $ENV{HARNESS_ACTIVE} ) {
 		$self->GetTopWindow->Show(1);
 	}
-	
+
 	return 1;
 }
 

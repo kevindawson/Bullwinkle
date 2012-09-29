@@ -87,7 +87,7 @@ version  0.01_01
 
 =head1 DESCRIPTION
 
-none
+Provides the Message blocks for the Bullwinkle Test Server
 
 
 =head1 ATTRIBUTES
@@ -116,7 +116,7 @@ Moo
 
 =head1 SEE ALSO
 
-none
+Bullwinkle::Client::Commands
 
 
 =head1 AUTHOR

@@ -205,6 +205,39 @@ This document describes Bullwinkle::Server version  0.01_01
     Use subsections (=head2, =head3) as appropriate.
 
 
+=head1 METHODS
+
+=over 4
+
+=item *	close_socket
+
+=item *	json_to_client
+
+=item *	run
+
+=item *	service_socket
+
+=item *	start_host
+
+=item *	text_to_client
+
+=back
+
+
+=head1 ATTRIBUTES
+
+=over 4
+
+=item *	api
+
+=item *	port
+
+=item *	host
+
+=item *	file
+
+=back
+
 =head1 INTERFACE 
 
 =for author to fill in:

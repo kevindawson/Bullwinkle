@@ -70,15 +70,15 @@ sub on_send_clicked {
 	my $self = shift;
 
 	# say 'Handler method on_send_clicked for event send.OnButtonClick implemented here';
-	my $data = '';
+	my $data = BLANK;
 	if ($connect_flag) {
 		try {
 			my $json_text = $self->client_json->GetValue;
-			if ( $json_text eq '' ) { return; }
+			if ( $json_text eq BLANK ) { return; }
 			my $perl_scalar = JSON::XS->new->utf8->decode($json_text);
 
 			# p $perl_scalar;
-			print $socket JSON::XS->new->utf8->encode($perl_scalar) . "\n";
+			print {$socket} JSON::XS->new->utf8->encode($perl_scalar) . "\n";
 			$socket->recv( $data, 1024 );
 		};
 	}
@@ -132,6 +132,7 @@ sub on_decode_clicked {
 
 #######
 # event handlers for menu options
+#Todo change name tp connect_to_server
 #######
 sub connect {
 	my $self = shift;
@@ -145,7 +146,7 @@ sub connect {
 			PeerPort => $self->{port}  // '9000',
 			Proto    => $self->{porto} // 'tcp',
 
-		) or carp "Could not connect to host 127.0.0.1:9000 ->$!";
+		) or carp "Could not connect to host 127.0.0.1:9000 ->$ERRNO";
 
 		$connect_flag = 1;
 
@@ -162,7 +163,7 @@ sub connect {
 sub status {
 	my $self = shift;
 	say 'status';
-	my $data = '';
+	my $data = BLANK;
 
 	if ($connect_flag) {
 		my $output = Data::Dumper::Dumper( $commands->status );
@@ -170,7 +171,7 @@ sub status {
 		$self->on_encode_clicked;
 
 		try {
-			print $socket JSON::XS->new->utf8->encode( $commands->status ) . "\n";
+			print {$socket} JSON::XS->new->utf8->encode( $commands->status ) . "\n";
 			$socket->recv( $data, 1024 );
 		};
 	}
@@ -183,7 +184,7 @@ sub status {
 sub quit {
 	my $self = shift;
 	say 'quit';
-	my $data = '';
+	my $data = BLANK;
 
 	if ($connect_flag) {
 		my $output = Data::Dumper::Dumper( $commands->quit );
@@ -191,8 +192,8 @@ sub quit {
 		$self->on_encode_clicked;
 
 		try {
-			print $socket JSON::XS->new->utf8->encode( $commands->quit ) . "\n";
-			close($socket);
+			print {$socket} JSON::XS->new->utf8->encode( $commands->quit ) . "\n";
+			close $socket or carp;
 		};
 		$connect_flag = 0;
 	}
@@ -220,7 +221,7 @@ sub auto_run {
 }
 
 
-
+#todo change name
 sub continue {
 	my $self = shift;
 

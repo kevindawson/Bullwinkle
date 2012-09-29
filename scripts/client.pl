@@ -1,7 +1,5 @@
 #!/usr/bin/perl
 
-## no critic
-
 use v5.10;
 use utf8;
 use strict;

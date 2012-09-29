@@ -87,7 +87,7 @@ __END__
 
 =head1 NAME
 
-Padre::Plugin::Nopaste::Services - NoPaste plugin for Padre, The Perl IDE.
+Bullwinkle::Client::Commands
 
 =head1 VERSION
 
@@ -95,14 +95,12 @@ version  0.01_01
 
 =head1 DESCRIPTION
 
-This just a utility module with information about App::Nopaste Services and 
-Channels respectively serviced known to us.
+Provides the Message blocks for the Bullwinkle Test Client
 
 
 =head1 ATTRIBUTES
 
 =over 4
-
 
 =item *	continue
 
@@ -116,7 +114,6 @@ Channels respectively serviced known to us.
 
 =item *	status
 
-
 =back
 
 =head1 BUGS AND LIMITATIONS
@@ -129,25 +126,21 @@ Moo
 
 =head1 SEE ALSO
 
-For all related information (bug reporting, source code repository,
-etc.), refer to L<Padre::Plugin::Nopaste>.
+Bullwinkle::Server::Response
 
 =head1 AUTHOR
 
 Kevin Dawson E<lt>bowtie@cpan.orgE<gt>
 
-=head1 COPYRIGHT AND LICENSE
+Rocky Bernstein E<lt>rocky@cpan.orgE<gt>
 
-Copyright (c) 2012 kevin dawson, all rights reserved.
+=head1 LICENCE AND COPYRIGHT
+
+Copyright &copy 2012, Kevin Dawson E<lt>bowtie@cpan.orgE<gt> Rocky Bernstein E<lt>rocky@cpan.orgE<gt>. All rights reserved.
+
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
-
-# Copyright 2008-2012 The Padre development team as listed in Padre.pm.
-# LICENSE
-# This program is free software; you can redistribute it and/or
-# modify it under the same terms as Perl 5 itself.
 
