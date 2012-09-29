@@ -14,7 +14,7 @@ use lib ("$Bin/../lib");
 
 use Bullwinkle::Server ();
 
-our $VERSION = '0.01';
+our $VERSION = '0.01_01';
 
 my $server = Bullwinkle::Server->new( api => 'bullwinkle', port => '9000', host => '127.0.0.1', file => 'test.pl', );
 # my $server = Bullwinkle::Server->new( api => 'bullwinkle', port => '9000', host => '127.0.0.1', );

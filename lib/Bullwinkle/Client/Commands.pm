@@ -3,7 +3,7 @@ package Bullwinkle::Client::Commands;
 use v5.10;
 use English qw( -no_match_vars ); # Avoids regex performance penalty
 local $OUTPUT_AUTOFLUSH = 1;
-our $VERSION = '0.06';
+our $VERSION = '0.01_01';
 
 use Moo;
 has 'status' => (
@@ -91,7 +91,7 @@ Padre::Plugin::Nopaste::Services - NoPaste plugin for Padre, The Perl IDE.
 
 =head1 VERSION
 
-version  0.06
+version  0.01_01
 
 =head1 DESCRIPTION
 

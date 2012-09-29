@@ -3,7 +3,7 @@ package Bullwinkle::Server;
 use v5.10;
 use English qw( -no_match_vars ); # Avoids regex performance penalty
 local $OUTPUT_AUTOFLUSH = 1;
-our $VERSION = '0.06';
+our $VERSION = '0.01_01';
 use autodie qw(:all);             # Recommended more: defaults and system/exec.
 
 use Moo;
@@ -185,7 +185,7 @@ Bullwinkle::Server - [One line description of module's purpose here]
 
 =head1 VERSION
 
-This document describes Bullwinkle::Server version 0.0.1
+This document describes Bullwinkle::Server version  0.01_01
 
 
 =head1 SYNOPSIS

@@ -3,7 +3,7 @@ package Bullwinkle::Server::Response;
 use v5.10;
 use English qw( -no_match_vars ); # Avoids regex performance penalty
 local $OUTPUT_AUTOFLUSH = 1;
-our $VERSION = '0.06';
+our $VERSION = '0.01_01';
 
 use Moo;
 has 'init' => (
@@ -13,7 +13,7 @@ has 'init' => (
 		return {
 			init => {
 				language         => 'perl',
-				protocol_version => '2.0',
+				protocol_version  0.01_01
 				fileuri          => 'file://path/to/file',
 			},
 		};
@@ -83,7 +83,7 @@ Padre::Plugin::Nopaste::Services - NoPaste plugin for Padre, The Perl IDE.
 
 =head1 VERSION
 
-version  0.06
+version  0.01_01
 
 =head1 DESCRIPTION
 
