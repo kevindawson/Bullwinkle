@@ -86,9 +86,9 @@ sub start_host {
 		ReuseAddr => $self->{reuse_addr},
 
 		# Open      => 1,
-	) or carp "Could not establish the socket $self->{host}:$self->{port} ->$!";
+	) or carp "Could not establish the socket $self->{host}:$self->{port} ->$ERRNO";
 
-	$self->{socket} = $sock->accept() or die sprintf "ERRRR(%d)(%s)(%d)(%s)", $!, $!, $^E, $^E;
+	$self->{socket} = $sock->accept() or carp;#die sprintf "ERRRR(%d)(%s)(%d)(%s)", $!, $!, $^E, $^E;
 
 	return;
 }
@@ -97,7 +97,7 @@ sub service_socket {
 	my $self = shift;
 
 	my $msg = sprintf(
-		"Waiting for a connection on port %d at " . "address %s...",
+		"Waiting for a connection on port %d at address %s...",
 		$self->{port}, $self->{host}
 	);
 	say $msg;
@@ -160,7 +160,7 @@ sub close_socket {
 	my $self = shift;
 	say 'closing socket';
 	$self->text_to_client('so long and thanks for all the fish');
-	close( $self->{socket} );
+	close $self->{socket} or carp;
 	say 'so long and thanks for all the fish';
 	return;
 }

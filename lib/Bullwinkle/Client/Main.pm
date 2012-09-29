@@ -132,9 +132,8 @@ sub on_decode_clicked {
 
 #######
 # event handlers for menu options
-#Todo change name tp connect_to_server
 #######
-sub connect {
+sub connect_to_server {
 	my $self = shift;
 
 	say 'connect';
@@ -221,8 +220,7 @@ sub auto_run {
 }
 
 
-#todo change name
-sub continue {
+sub continue_null {
 	my $self = shift;
 
 	my $output = Data::Dumper::Dumper( $commands->continue );

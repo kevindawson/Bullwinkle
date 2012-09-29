@@ -8,7 +8,7 @@ use strict;
 use warnings;
 use Wx 0.98 ':everything';
 
-our $VERSION = '0.01_01';
+our $VERSION = '0.01';
 our @ISA     = 'Wx::Frame';
 
 sub new {
@@ -126,7 +126,7 @@ sub new {
 
 	$self->{server} = Wx::Menu->new;
 
-	my $connect = Wx::MenuItem->new(
+	my $connect_to_server = Wx::MenuItem->new(
 		$self->{server},
 		-1,
 		"Connect",
@@ -136,9 +136,9 @@ sub new {
 
 	Wx::Event::EVT_MENU(
 		$self,
-		$connect,
+		$connect_to_server,
 		sub {
-			shift->connect(@_);
+			shift->connect_to_server(@_);
 		},
 	);
 
@@ -174,13 +174,13 @@ sub new {
 		},
 	);
 
-	$self->{server}->Append( $connect );
+	$self->{server}->Append( $connect_to_server );
 	$self->{server}->Append( $status );
 	$self->{server}->Append( $quit );
 
 	$self->{m_menu3} = Wx::Menu->new;
 
-	my $continue = Wx::MenuItem->new(
+	my $continue_null = Wx::MenuItem->new(
 		$self->{m_menu3},
 		-1,
 		"Continue Simple",
@@ -190,9 +190,9 @@ sub new {
 
 	Wx::Event::EVT_MENU(
 		$self,
-		$continue,
+		$continue_null,
 		sub {
-			shift->continue(@_);
+			shift->continue_null(@_);
 		},
 	);
 
@@ -244,7 +244,7 @@ sub new {
 		},
 	);
 
-	$self->{m_menu3}->Append( $continue );
+	$self->{m_menu3}->Append( $continue_null );
 	$self->{m_menu3}->Append( $continue_function );
 	$self->{m_menu3}->Append( $continue_line );
 	$self->{m_menu3}->Append( $continue_file );
@@ -338,8 +338,8 @@ sub on_decode_clicked {
 	warn 'Handler method on_decode_clicked for event decode.OnButtonClick not implemented';
 }
 
-sub connect {
-	warn 'Handler method connect for event connect.OnMenuSelection not implemented';
+sub connect_to_server {
+	warn 'Handler method connect_to_server for event connect_to_server.OnMenuSelection not implemented';
 }
 
 sub status {
@@ -350,8 +350,8 @@ sub quit {
 	warn 'Handler method quit for event quit.OnMenuSelection not implemented';
 }
 
-sub continue {
-	warn 'Handler method continue for event continue.OnMenuSelection not implemented';
+sub continue_null {
+	warn 'Handler method continue_null for event continue_null.OnMenuSelection not implemented';
 }
 
 sub continue_function {
