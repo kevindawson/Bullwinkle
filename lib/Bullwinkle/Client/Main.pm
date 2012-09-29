@@ -26,7 +26,7 @@ use constant {
 	BLANK => qq{ },
 	NONE  => q{},
 };
-our $VERSION = '0.01_01';
+our $VERSION = '0.01_02';
 use parent qw(
 	Bullwinkle::Client::FBP::Main
 );

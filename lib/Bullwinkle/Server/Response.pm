@@ -4,7 +4,7 @@ use v5.10;
 use Moo;
 use English qw( -no_match_vars ); # Avoids regex performance penalty
 local $OUTPUT_AUTOFLUSH = 1;
-our $VERSION = '0.01_01';
+our $VERSION = '0.01_02';
 
 has 'init' => (
 	is      => 'ro',
