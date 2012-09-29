@@ -1,11 +1,11 @@
 package Bullwinkle::Server::Response;
 
 use v5.10;
+use Moo;
 use English qw( -no_match_vars ); # Avoids regex performance penalty
 local $OUTPUT_AUTOFLUSH = 1;
 our $VERSION = '0.01_01';
 
-use Moo;
 has 'init' => (
 	is      => 'ro',
 	default => sub {
@@ -79,7 +79,7 @@ __END__
 
 =head1 NAME
 
-Padre::Plugin::Nopaste::Services - NoPaste plugin for Padre, The Perl IDE.
+Bullwinkle::Server::Response.
 
 =head1 VERSION
 
@@ -87,35 +87,22 @@ version  0.01_01
 
 =head1 DESCRIPTION
 
-This just a utility module with information about App::Nopaste Services and 
-Channels respectively serviced known to us.
+none
 
 
 =head1 ATTRIBUTES
 
 =over 4
 
-=item *	Codepeek
+=item *	bullwinkle
 
-=item *	Debian
+=item *	continue_file
 
-=item *	Gist
+=item *	init
 
-=item *	PastebinCom
+=item *	recived
 
-=item *	Pastie
-
-=item *	Shadowcat
-
-=item *	Snitch
-
-=item *	Ubuntu
-
-=item *	channels
-
-=item *	servers
-
-=item *	ssh
+=item *	status
 
 =back
 
@@ -129,25 +116,21 @@ Moo
 
 =head1 SEE ALSO
 
-For all related information (bug reporting, source code repository,
-etc.), refer to L<Padre::Plugin::Nopaste>.
+none
+
 
 =head1 AUTHOR
 
 Kevin Dawson E<lt>bowtie@cpan.orgE<gt>
 
-=head1 COPYRIGHT AND LICENSE
+Rocky Bernstein E<lt>rocky@cpan.orgE<gt>
 
-Copyright (c) 2012 kevin dawson, all rights reserved.
+=head1 LICENCE AND COPYRIGHT
+
+Copyright &copy 2012, Kevin Dawson E<lt>bowtie@cpan.orgE<gt> Rocky Bernstein E<lt>rocky@cpan.orgE<gt>. All rights reserved.
+
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
-
-# Copyright 2008-2012 The Padre development team as listed in Padre.pm.
-# LICENSE
-# This program is free software; you can redistribute it and/or
-# modify it under the same terms as Perl 5 itself.
-
