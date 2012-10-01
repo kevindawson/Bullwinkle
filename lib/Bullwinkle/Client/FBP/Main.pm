@@ -20,9 +20,10 @@ sub new {
 		-1,
 		"Bullwinkle",
 		wxDefaultPosition,
-		[ 457, 501 ],
+		wxDefaultSize,
 		wxDEFAULT_FRAME_STYLE | wxTAB_TRAVERSAL,
 	);
+	$self->{status_bar} = $self->CreateStatusBar( 1, wxST_SIZEGRIP, -1 );
 
 	$self->{client_perl} = Wx::TextCtrl->new(
 		$self,
@@ -73,6 +74,7 @@ sub new {
 		wxDefaultPosition,
 		wxDefaultSize,
 	);
+	$self->{send}->Disable;
 
 	Wx::Event::EVT_BUTTON(
 		$self,
@@ -142,6 +144,22 @@ sub new {
 		},
 	);
 
+	my $disconnect_from_server = Wx::MenuItem->new(
+		$self->{server},
+		-1,
+		"Disconnect",
+		'',
+		wxITEM_NORMAL,
+	);
+
+	Wx::Event::EVT_MENU(
+		$self,
+		$disconnect_from_server,
+		sub {
+			shift->disconnect_from_server(@_);
+		},
+	);
+
 	my $status = Wx::MenuItem->new(
 		$self->{server},
 		-1,
@@ -175,7 +193,10 @@ sub new {
 	);
 
 	$self->{server}->Append( $connect_to_server );
+	$self->{server}->Append( $disconnect_from_server );
+	$self->{server}->AppendSeparator;
 	$self->{server}->Append( $status );
+	$self->{server}->AppendSeparator;
 	$self->{server}->Append( $quit );
 
 	$self->{m_menu3} = Wx::Menu->new;
@@ -304,7 +325,7 @@ sub new {
 	my $bSizer1 = Wx::BoxSizer->new(wxVERTICAL);
 	$bSizer1->Add( $bSizer2, 1, wxEXPAND, 5 );
 
-	$self->SetSizer($bSizer1);
+	$self->SetSizerAndFit($bSizer1);
 	$self->Layout;
 
 	return $self;
@@ -326,6 +347,10 @@ sub server_perl {
 	$_[0]->{server_perl};
 }
 
+sub status_bar {
+	$_[0]->{status_bar};
+}
+
 sub on_encode_clicked {
 	warn 'Handler method on_encode_clicked for event encode.OnButtonClick not implemented';
 }
@@ -340,6 +365,10 @@ sub on_decode_clicked {
 
 sub connect_to_server {
 	warn 'Handler method connect_to_server for event connect_to_server.OnMenuSelection not implemented';
+}
+
+sub disconnect_from_server {
+	warn 'Handler method disconnect_from_server for event disconnect_from_server.OnMenuSelection not implemented';
 }
 
 sub status {

@@ -123,27 +123,62 @@ sub on_decode_clicked {
 sub connect_to_server {
 	my $self = shift;
 
-	say 'connect';
 	unless ($connect_flag) {
 
-		# Connect to Bullwinkle Server.
-		$socket = IO::Socket::IP->new(
-			PeerAddr => $self->{host}  // '127.0.0.1',
-			PeerPort => $self->{port}  // 9_000,
-			Proto    => $self->{porto} // 'tcp',
+		$self->{host} //= '127.0.0.1';
+		$self->{port} //= 9_000;
 
-		) or carp "Could not connect to host 127.0.0.1:9000 ->$ERRNO";
+		try {
+			# Connect to Bullwinkle Server.
+			$socket = IO::Socket::IP->new(
+				PeerAddr => $self->{host},
+				PeerPort => $self->{port},
+				Proto    => $self->{porto} // 'tcp',
 
-		$connect_flag = 1;
+			) or die; #or carp "Could not connect to host 127.0.0.1:9000 ->$ERRNO";
 
-		$socket->recv( my $data, 1024 );
-		$self->server_json->SetValue($data);
+		}
+		catch {
+			$self->disconnect_from_server;
+			$self->{status_bar}->SetStatusText( sprintf( "Info: %s", $ERRNO ) );
+			return;
+		}
+		finally {
+			unless (@_) {
 
-		$self->on_decode_clicked;
+				$connect_flag = 1;
+				$self->{send}->Enable;
+				$self->{status_bar}->SetStatusText(
+					sprintf(
+						"Connected to a Bullwinkle Server %s:%s",
+						$self->{host},
+						$self->{port},
+					)
+				);
+				$socket->recv( my $data, 1024 );
+				$self->server_json->SetValue($data);
+				$self->on_decode_clicked;
+
+			}
+		};
+
 	}
 
 	return;
 }
+
+sub disconnect_from_server {
+	my $self = shift;
+	if ($connect_flag) {
+		close $socket or carp;
+	}
+	$connect_flag = 0;
+	$self->{send}->Disable;
+	$self->auto_run;
+	$self->{status_bar}->SetStatusText('Disconnected from Bullwinkle Server');
+	return;
+}
+
 
 sub status {
 	my $self = shift;
@@ -162,10 +197,13 @@ sub quit {
 	$self->client_perl->SetValue($output);
 
 	$self->auto_run;
-	if ($connect_flag) {
-		close $socket or carp;
-	}
-	$connect_flag = 0;
+	$self->disconnect_from_server;
+
+	# if ($connect_flag) {
+	# close $socket or carp;
+	# }
+	# $connect_flag = 0;
+	# $self->{send}->Disable;
 
 	return;
 }
