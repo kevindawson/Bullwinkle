@@ -46,7 +46,7 @@ my $server = IO::Socket::IP->new(
 	Proto     => 'tcp',
 	Listen    => 1,
 	ReuseAddr => 1,
-) or carp "Could not establish the socket $host:$port ->$ERRNO";
+) or croak "Could not establish the socket $host:$port ->$ERRNO";
 
 say "Multiplex server running on port $port...";
 
