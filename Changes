@@ -1,9 +1,10 @@
 Revision history for Bullwinkle
 
-0.01_03  2012-TBA
+0.01_03  2012-10-01
        - Add missing dependancy IO::Socket::IP rocky++
        - Show encode/decode fail info, rather than just blank
        - add quit response message
+       - Add menu item disconnect and status_bar
 
 0.01_02  2012-09-29
        - remove comments from code, that relate to where it was hacked from.
