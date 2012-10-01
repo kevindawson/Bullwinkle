@@ -87,8 +87,7 @@ sub start_host {
 
 		# Open      => 1,
 	) or carp "Could not establish the socket $self->{host}:$self->{port} ->$ERRNO";
-
-	$self->{socket} = $sock->accept() or carp;#die sprintf "ERRRR(%d)(%s)(%d)(%s)", $!, $!, $^E, $^E;
+	$self->{socket} = $sock->accept() or carp; #die sprintf "ERRRR(%d)(%s)(%d)(%s)", $!, $!, $^E, $^E;
 
 	return;
 }
@@ -101,13 +100,13 @@ sub service_socket {
 		$self->{port}, $self->{host}
 	);
 	say $msg;
-
-	say 'Got connection';
+	my $socket = $self->{socket};
+	my $client_host   = $socket->peerhost;
+	my $client_port   = $socket->peerport;
+	say "Recived connection from Client $client_host:$client_port";
 
 	#send initilzation message
 	$self->json_to_client( $self->{response}->init );
-
-	my $socket = $self->{socket};
 
 	while (<$socket>) {
 		my $client_json = $_;
@@ -115,6 +114,7 @@ sub service_socket {
 		my $perl_scalar;
 		try {
 			$perl_scalar = JSON::XS->new->utf8->decode($client_json);
+
 			# eitor or depending on your preferance
 			# p $perl_scalar;
 			say Data::Dumper::Dumper( JSON::XS->new->utf8->decode($client_json) );
@@ -159,18 +159,18 @@ sub json_to_client {
 sub close_socket {
 	my $self = shift;
 	say 'closing socket';
-	$self->text_to_client('so long and thanks for all the fish');
+	$self->json_to_client( $self->{response}->quit );
 	close $self->{socket} or carp;
 	say 'so long and thanks for all the fish';
 	return;
 }
 
 sub status {
-		my $self = shift;
-		my $status = shift;
-		p $status;
-		$self->json_to_client( $self->{response}->status );
-		return;
+	my $self   = shift;
+	my $status = shift;
+	p $status;
+	$self->json_to_client( $self->{response}->status );
+	return;
 }
 
 

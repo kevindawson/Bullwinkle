@@ -69,7 +69,20 @@ has 'continue_file' => (
 		};
 	},
 );
+has 'quit' => (
+	is      => 'ro',
+	default => sub {
+		my $self = shift;
 
+		return {
+			response => {
+				command => 'quit',
+				status  => 'stopped',
+				reason  => 'ok',
+			},
+		};
+	},
+);
 
 1;
 

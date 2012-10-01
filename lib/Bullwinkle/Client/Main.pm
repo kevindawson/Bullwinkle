@@ -50,18 +50,17 @@ say 'run';
 sub on_encode_clicked {
 	my $self = shift;
 
-	# say 'Handler method on_encode_clicked for event encode.OnButtonClick implemented here';
-
 	my $hash_ref = eval $self->client_perl->GetValue;
 	$self->client_json->SetValue(BLANK);
 
 	if ( defined $hash_ref ) {
 
-		# p $hash_ref;
-		# say JSON::XS->new->utf8->pretty(1)->encode($hash_ref);
 		try {
 			$self->client_json->SetValue( JSON::XS->new->utf8->pretty(1)->encode($hash_ref) );
 		};
+
+	} else {
+		$self->client_json->SetValue("info: JSON::XS->encode \nfailed to encode \n<- client_perl");
 	}
 
 	return;
@@ -70,7 +69,6 @@ sub on_encode_clicked {
 sub on_send_clicked {
 	my $self = shift;
 
-	# say 'Handler method on_send_clicked for event send.OnButtonClick implemented here';
 	my $data = BLANK;
 	if ($connect_flag) {
 		try {
@@ -82,6 +80,7 @@ sub on_send_clicked {
 			print {$socket} JSON::XS->new->utf8->encode($perl_scalar) . "\n";
 			$socket->recv( $data, 1024 );
 		};
+
 	}
 	$self->server_json->SetValue($data);
 	$self->server_perl->SetValue(BLANK);
@@ -92,40 +91,27 @@ sub on_send_clicked {
 sub on_decode_clicked {
 	my $self = shift;
 
-	# say 'Handler method on_decode_clicked for event encode.OnButtonClick implemented here';
-
 	my $server_json = $self->server_json->GetValue;
 	$self->server_perl->SetValue(BLANK);
 
-	# p $server_json;
+	if ( defined $server_json ) {
 
-	my $json_text_default = '{
-			"init" : {
-			"parent" : "PARENT_APPID",
-			"appid" : "APPID",
-			"language" : "LANGUAGE_NAME",
-			"fileuri" : "file://path/to/file",
-			"protocol_version" : "2.0",
-			"idekey" : "IDE_KEY",
-			"thread" : "THREAD_ID",
-			"session" : "DBGP_COOKIE"
+		try {
+			if ( decode_json $server_json ) {
+
+				my $output = Data::Dumper::Dumper( JSON::XS->new->utf8->decode($server_json) );
+				$self->server_perl->SetValue($output);
+				return;
+			}
 		}
-	}';
+		catch {
+			$self->server_perl->SetValue("info: JSON::XS->decode \nfailed to decode \n<- server_json");
+			return;
+		};
 
-	# p $json_text_default;
-	my $json_text = $server_json || $json_text_default;
-
-	# p $json_text;
-	# my $perl_scalar = JSON::XS->new->utf8->decode($json_text);
-
-	# p $perl_scalar;
-	# say JSON::XS->new->utf8->pretty(1)->decode($json_text);
-	try {
-		my $output = Data::Dumper::Dumper( JSON::XS->new->utf8->decode($json_text) );
-		$self->server_perl->SetValue($output);
-	};
-
-	# say $output;
+	} else {
+		$self->server_perl->SetValue("info: JSON::XS->decode \nfailed to decode \n<- server_json");
+	}
 
 	return;
 }
@@ -143,7 +129,7 @@ sub connect_to_server {
 		# Connect to Bullwinkle Server.
 		$socket = IO::Socket::IP->new(
 			PeerAddr => $self->{host}  // '127.0.0.1',
-			PeerPort => $self->{port}  // '9000',
+			PeerPort => $self->{port}  // 9_000,
 			Proto    => $self->{porto} // 'tcp',
 
 		) or carp "Could not connect to host 127.0.0.1:9000 ->$ERRNO";
@@ -154,7 +140,6 @@ sub connect_to_server {
 		$self->server_json->SetValue($data);
 
 		$self->on_decode_clicked;
-
 	}
 
 	return;
@@ -162,44 +147,25 @@ sub connect_to_server {
 
 sub status {
 	my $self = shift;
-	say 'status';
-	my $data = BLANK;
 
-	if ($connect_flag) {
-		my $output = Data::Dumper::Dumper( $commands->status );
-		$self->client_perl->SetValue($output);
-		$self->on_encode_clicked;
-		
-		try {
-			print {$socket} JSON::XS->new->utf8->encode( $commands->status ) . "\n";
-			$socket->recv( $data, 1024 );
-		};
-	}
-	$self->server_json->SetValue($data);
-	$self->on_decode_clicked;
+	my $output = Data::Dumper::Dumper( $commands->status );
+	$self->client_perl->SetValue($output);
 
+	$self->auto_run;
 	return;
 }
 
 sub quit {
 	my $self = shift;
-	say 'quit';
-	my $data = BLANK;
 
+	my $output = Data::Dumper::Dumper( $commands->quit );
+	$self->client_perl->SetValue($output);
+
+	$self->auto_run;
 	if ($connect_flag) {
-		my $output = Data::Dumper::Dumper( $commands->quit );
-		$self->client_perl->SetValue($output);
-		$self->on_encode_clicked;
-
-		try {
-			print {$socket} JSON::XS->new->utf8->encode( $commands->quit ) . "\n";
-			close $socket or carp;
-		};
-		$connect_flag = 0;
+		close $socket or carp;
 	}
-	$self->server_json->SetValue($data);
-	$self->server_perl->SetValue($data);
-	$self->client_json->SetValue($data);
+	$connect_flag = 0;
 
 	return;
 }
@@ -236,9 +202,6 @@ sub continue_function {
 
 	my $output = Data::Dumper::Dumper( $commands->continue_function );
 	$self->client_perl->SetValue($output);
-	$self->client_json->SetValue(BLANK);
-	$self->server_json->SetValue(BLANK);
-	$self->server_perl->SetValue(BLANK);
 	$self->auto_run;
 
 	return;
@@ -249,9 +212,6 @@ sub continue_line {
 
 	my $output = Data::Dumper::Dumper( $commands->continue_line );
 	$self->client_perl->SetValue($output);
-	$self->client_json->SetValue(BLANK);
-	$self->server_json->SetValue(BLANK);
-	$self->server_perl->SetValue(BLANK);
 	$self->auto_run;
 
 	return;
@@ -262,9 +222,6 @@ sub continue_file {
 
 	my $output = Data::Dumper::Dumper( $commands->continue_file );
 	$self->client_perl->SetValue($output);
-	$self->client_json->SetValue(BLANK);
-	$self->server_json->SetValue(BLANK);
-	$self->server_perl->SetValue(BLANK);
 	$self->auto_run;
 
 	return;
