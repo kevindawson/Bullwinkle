@@ -12,6 +12,7 @@ requires File::Which          1.09
 requires Try::Tiny            0.11
 requires Carp::Always::Color  0.06
 requires IO::Socket::IP       0.17
+requires IPC::System::Simple  1.21
 requires Carp                 1.20
 requires Try::Tiny            0.11
 requires JSON::XS             2.33
