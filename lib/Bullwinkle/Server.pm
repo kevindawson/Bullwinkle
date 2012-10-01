@@ -103,9 +103,9 @@ sub service_socket {
 	my $socket = $self->{socket};
 	my $client_host   = $socket->peerhost;
 	my $client_port   = $socket->peerport;
-	say "Recived connection from Client $client_host:$client_port";
+	say "Received connection from Client $client_host:$client_port";
 
-	#send initilzation message
+	#send initialisation message
 	$self->json_to_client( $self->{response}->init );
 
 	while (<$socket>) {

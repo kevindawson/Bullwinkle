@@ -67,7 +67,8 @@ while ( my $connection = $server->accept ) {
 		$thread->detach;
 
 	} else {
-		$connection->syswrite( "I'm a Monogamous Server \nConnection droped \nsuggest you try counting sheep \n" );
+		$connection->syswrite( "I'm a Monogamous Server \nConnection dropped \nsuggest you try counting sheep \n" );
+		say 'Thanks another unwanted Client banished';
 	}
 
 }
@@ -88,6 +89,7 @@ sub connection {
 		$connection->syswrite( 'Message received OK' . "\n" );
 
 		if ( $_ =~ /quit/sm ) {
+			$connection->syswrite( 'So long and thanks for all the fish!' . "\n" );
 			exit(0);
 			return;
 		}
