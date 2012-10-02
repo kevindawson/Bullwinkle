@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 # iothreadserv.pl
 
 use v5.10;
