@@ -1,0 +1,8 @@
+*~
+/Bullwindle-*.tar.gz
+/MANIFEST.SKIP.bak
+/MANIFEST.bak
+/MYMETA.json
+/MYMETA.yml
+/Makefile
+/blib
