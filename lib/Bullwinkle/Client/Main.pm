@@ -5,8 +5,8 @@ use strict;
 use warnings;
 use English qw( -no_match_vars ); # Avoids regex performance penalty
 local $OUTPUT_AUTOFLUSH = 1;
+use rlib '.';
 
-use Bullwinkle::Client::FBP::Main ();
 use Bullwinkle::Client::Commands;
 
 use IO::Socket::IP 0.17;
@@ -18,251 +18,128 @@ $Data::Dumper::Purity = 1;
 $Data::Dumper::Terse  = 1;
 $Data::Dumper::Indent = 1;
 
-use Data::Printer {
-	caller_info => 1,
-	colored     => 1,
-};
 use constant {
 	BLANK => qq{ },
 	NONE  => q{},
 };
 our $VERSION = '0.01_03';
-use parent qw(
-	Bullwinkle::Client::FBP::Main
-);
 
 #######
 # setup
 #######
-my $commands = Bullwinkle::Client::Commands->new;
-my $socket;
-my $connect_flag = 0;
+sub new($) {
+    my $class = shift;
+    my $self = {
+        commands     => Bullwinkle::Client::Commands->new,
+	connect_flag => 0,
+	socket       => undef,
+    };
 
-# p $commands;
-say 'run';
-
-
-
-#######
-# button event handlers
-#######
-
-sub on_encode_clicked {
-	my $self = shift;
-
-	my $hash_ref = eval $self->client_perl->GetValue;
-	$self->client_json->SetValue(BLANK);
-
-	if ( defined $hash_ref ) {
-
-		try {
-			$self->client_json->SetValue( JSON::XS->new->utf8->pretty(1)->encode($hash_ref) );
-		};
-
-	} else {
-		$self->client_json->SetValue("info: JSON::XS->encode \nfailed to encode \n<- client_perl");
-	}
-
-	return;
-}
-
-sub on_send_clicked {
-	my $self = shift;
-
-	my $data = BLANK;
-	if ($connect_flag) {
-		try {
-			my $json_text = $self->client_json->GetValue;
-			if ( $json_text eq BLANK ) { return; }
-			my $perl_scalar = JSON::XS->new->utf8->decode($json_text);
-
-			# p $perl_scalar;
-			print {$socket} JSON::XS->new->utf8->encode($perl_scalar) . "\n";
-			$socket->recv( $data, 1024 );
-		};
-
-	}
-	$self->server_json->SetValue($data);
-	$self->server_perl->SetValue(BLANK);
-
-	return;
-}
-
-sub on_decode_clicked {
-	my $self = shift;
-
-	my $server_json = $self->server_json->GetValue;
-	$self->server_perl->SetValue(BLANK);
-
-	if ( defined $server_json ) {
-
-		try {
-			if ( decode_json $server_json ) {
-
-				my $output = Data::Dumper::Dumper( JSON::XS->new->utf8->decode($server_json) );
-				$self->server_perl->SetValue($output);
-				return;
-			}
-		}
-		catch {
-			$self->server_perl->SetValue("info: JSON::XS->decode \nfailed to decode \n<- server_json");
-			return;
-		};
-
-	} else {
-		$self->server_perl->SetValue("info: JSON::XS->decode \nfailed to decode \n<- server_json");
-	}
-
-	return;
+    # p $self->{commands};
+    say 'Main run';
+    bless $self, $class;
+    $self;
 }
 
 
-#######
-# event handlers for menu options
-#######
-sub connect_to_server {
-	my $self = shift;
+sub is_connected($) {
+    my $self = shift;
+    return $self->{connect_flag};
+}
 
-	unless ($connect_flag) {
+sub connect_to_server($) 
+{
+    my $self = shift;
+    
+    return (1, 'already_connected') if $self->is_connected();
+	
+    $self->{host} //= '127.0.0.1';
+    $self->{port} //= 9_000;
+    
+    try {
+	# Connect to Bullwinkle Server.
+	$self->{socket} = IO::Socket::IP->new(
+	    PeerAddr => $self->{host},
+	    PeerPort => $self->{port},
+	    Proto    => $self->{porto} // 'tcp',
+	    
+	    ) or return(0, "Could not connect to host 127.0.0.1:9000 ->$ERRNO");
+	
+	$self->{connect_flag} = 1;
+	my $response = 
+	    sprintf(
+		"Connected to a Bullwinkle Server %s:%s",
+		$self->{host},
+		$self->{port},
+	    );
+	return (1, $response);
+    }
+    catch {
+	$self->disconnect_from_server;
+	return (0, $ERRNO);
+    };
+}
 
-		$self->{host} //= '127.0.0.1';
-		$self->{port} //= 9_000;
+sub read_from_server {
+    my $self = shift;
+    $self->{socket}->recv( my $data, 1024 );
+    return $data;
+}
 
-		try {
-			# Connect to Bullwinkle Server.
-			$socket = IO::Socket::IP->new(
-				PeerAddr => $self->{host},
-				PeerPort => $self->{port},
-				Proto    => $self->{porto} // 'tcp',
-
-			) or die; #or carp "Could not connect to host 127.0.0.1:9000 ->$ERRNO";
-
-		}
-		catch {
-			$self->disconnect_from_server;
-			$self->{status_bar}->SetStatusText( sprintf( "Info: %s", $ERRNO ) );
-			return;
-		}
-		finally {
-			unless (@_) {
-
-				$connect_flag = 1;
-				$self->{send}->Enable;
-				$self->{status_bar}->SetStatusText(
-					sprintf(
-						"Connected to a Bullwinkle Server %s:%s",
-						$self->{host},
-						$self->{port},
-					)
-				);
-				$socket->recv( my $data, 1024 );
-				$self->server_json->SetValue($data);
-				$self->on_decode_clicked;
-
-			}
-		};
-
-	}
-
-	return;
+sub send_to_server {
+    my ($self, $json_text) = @_;
+    return undef unless $self->is_connected;
+    try {
+	return undef if $json_text eq BLANK;
+	my $perl_scalar = JSON::XS->new->utf8->decode($json_text);
+	# p $perl_scalar;
+	print {$self->{socket}} JSON::XS->new->utf8->encode($perl_scalar) . "\n";
+	return $self->{socket}->recv( my $data, 1024 );
+    }
+    return undef;
 }
 
 sub disconnect_from_server {
-	my $self = shift;
-	if ($connect_flag) {
-		close $socket or carp;
-	}
-	$connect_flag = 0;
-	$self->{send}->Disable;
-	$self->auto_run;
-	$self->{status_bar}->SetStatusText('Disconnected from Bullwinkle Server');
-	return;
+    my $self = shift;
+    if ($self->{connect_flag}) {
+	close $self->{socket} or carp;
+    }
+    $self->{connect_flag} = 0;
+    return 1;
 }
 
 
 sub status {
-	my $self = shift;
-
-	my $output = Data::Dumper::Dumper( $commands->status );
-	$self->client_perl->SetValue($output);
-
-	$self->auto_run;
-	return;
+    my $self = shift;
+    my $output = Data::Dumper::Dumper( $self->{commands}->status );
+    return $output;
 }
 
 sub quit {
-	my $self = shift;
-
-	my $output = Data::Dumper::Dumper( $commands->quit );
-	$self->client_perl->SetValue($output);
-
-	$self->auto_run;
-	$self->disconnect_from_server;
-
-	# if ($connect_flag) {
-	# close $socket or carp;
-	# }
-	# $connect_flag = 0;
-	# $self->{send}->Disable;
-
-	return;
+    my $self = shift;
+    $self->disconnect_from_server;
+    my $output = Data::Dumper::Dumper( $self->{commands}->quit );
+    return $output;
 }
 
-sub auto_run {
-	my $self = shift;
 
-	$self->client_json->SetValue(BLANK);
-	$self->server_json->SetValue(BLANK);
-	$self->server_perl->SetValue(BLANK);
+#  See GUI: for possible "continue" command things.
 
-	if ($connect_flag) {
-		$self->on_encode_clicked;
-		$self->on_send_clicked;
-		$self->on_decode_clicked;
+unless (caller) {
+    my $main = Bullwinkle::Client::Main->new();
+    eval {
+	use Data::Printer {
+	    # caller_info => 1,
+	     colored     => 0,
 	}
-
-	return;
+    };
+    p $main->status;
+    printf "Is connected %d\n", $main->is_connected();
+    $main->connect_to_server;
+    printf "Is connected %d\n", $main->is_connected();
+    $main->disconnect_from_server;
+    printf "Is connected %d\n", $main->is_connected();
 }
 
-
-sub continue_null {
-	my $self = shift;
-
-	my $output = Data::Dumper::Dumper( $commands->continue_null );
-	$self->client_perl->SetValue($output);
-	$self->auto_run;
-
-	return;
-}
-
-sub continue_function {
-	my $self = shift;
-
-	my $output = Data::Dumper::Dumper( $commands->continue_function );
-	$self->client_perl->SetValue($output);
-	$self->auto_run;
-
-	return;
-}
-
-sub continue_line {
-	my $self = shift;
-
-	my $output = Data::Dumper::Dumper( $commands->continue_line );
-	$self->client_perl->SetValue($output);
-	$self->auto_run;
-
-	return;
-}
-
-sub continue_file {
-	my $self = shift;
-
-	my $output = Data::Dumper::Dumper( $commands->continue_file );
-	$self->client_perl->SetValue($output);
-	$self->auto_run;
-
-	return;
-}
 
 1;

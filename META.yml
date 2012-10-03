@@ -1,0 +1,41 @@
+---
+abstract: "[One line description of module's purpose here]"
+author:
+  - 'Kevin Dawson <bowtie@cpan.org>'
+build_requires:
+  ExtUtils::MakeMaker: 6.59
+  Test::More: 0.98
+configure_requires:
+  ExtUtils::MakeMaker: 6.59
+distribution_type: module
+dynamic_config: 0
+generated_by: 'Module::Install version 1.06'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+module_name: Bullwinkle::Client
+name: Bullwinkle-Client
+no_index:
+  directory:
+    - inc
+    - t
+requires:
+  Carp: 1.20
+  Carp::Always::Color: 0.06
+  Data::Dumper: 2.131
+  Data::Printer: 0.33
+  File::Which: 1.09
+  IO::Socket::IP: 0.17
+  IPC::System::Simple: 1.21
+  JSON::XS: 2.33
+  Moo: 1.000003
+  Try::Tiny: 0.11
+  Wx: 0.99
+  perl: 5.10.0
+resources:
+  bugtracker: https://github.com/kevindawson/Bullwinkle/issues
+  homepage: https://github.com/kevindawson/Bullwinkle
+  license: http://dev.perl.org/licenses/
+  repository: git://github.com/kevindawson/Bullwinkle.git
+version: 0.01_03

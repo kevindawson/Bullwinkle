@@ -21,8 +21,8 @@ sub OnInit {
 	my $self = shift;
 
 	# Create the primary frame
-	require Bullwinkle::Client::Main;
-	$self->SetTopWindow( Bullwinkle::Client::Main->new );
+	require Bullwinkle::Client::GUI;
+	$self->SetTopWindow( Bullwinkle::Client::GUI->new );
 
 	# Don't flash frames on the screen in tests
 	unless ( $ENV{HARNESS_ACTIVE} ) {
