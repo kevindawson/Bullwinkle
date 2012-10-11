@@ -19,7 +19,7 @@ $Data::Dumper::Terse  = 1;
 $Data::Dumper::Indent = 1;
 
 use Data::Printer {
-	caller_info => 1,
+	caller_info => 0,
 	colored     => 1,
 };
 use constant {
@@ -39,7 +39,7 @@ my $socket;
 my $connect_flag = 0;
 
 # p $commands;
-say 'run';
+say 'Client running, see status bar for info messages';
 
 
 
@@ -71,17 +71,20 @@ sub on_send_clicked {
 
 	my $data = BLANK;
 	if ($connect_flag) {
+
+		my $json_text = $self->client_json->GetValue;
+		if ( $json_text eq BLANK ) { return; }
+		# my $perl_scalar;
 		try {
-			my $json_text = $self->client_json->GetValue;
-			if ( $json_text eq BLANK ) { return; }
 			my $perl_scalar = JSON::XS->new->utf8->decode($json_text);
-
-			# p $perl_scalar;
 			print {$socket} JSON::XS->new->utf8->encode($perl_scalar) . "\n";
-			$socket->recv( $data, 1024 );
+		}
+		catch {
+			print {$socket} "$json_text";
 		};
-
+		$socket->recv( $data, 1024 );
 	}
+	p $data;
 	$self->server_json->SetValue($data);
 	$self->server_perl->SetValue(BLANK);
 
@@ -126,7 +129,9 @@ sub connect_to_server {
 	unless ($connect_flag) {
 
 		$self->{host} //= '127.0.0.1';
+
 		$self->{port} //= 9_000;
+		# $self->{port} //= 4_567;
 
 		try {
 			# Connect to Bullwinkle Server.
