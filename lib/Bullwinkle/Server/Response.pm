@@ -32,7 +32,7 @@ has 'bullwinkle' => (
 		};
 	},
 );
-has 'recived' => (
+has 'received' => (
 	is      => 'ro',
 	default => sub {
 		my $self = shift;
