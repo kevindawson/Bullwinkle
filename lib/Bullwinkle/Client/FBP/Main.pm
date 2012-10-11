@@ -8,7 +8,7 @@ use strict;
 use warnings;
 use Wx 0.98 ':everything';
 
-our $VERSION = '0.01_03';
+our $VERSION = '0.01';
 our @ISA     = 'Wx::Frame';
 
 sub new {
@@ -132,7 +132,7 @@ sub new {
 		$self->{server},
 		-1,
 		"Connect",
-		"connect to Bullwinkle Server",
+		"Connect to Bullwinkle Server",
 		wxITEM_NORMAL,
 	);
 
@@ -148,7 +148,7 @@ sub new {
 		$self->{server},
 		-1,
 		"Disconnect",
-		'',
+		"Disconnect from Server",
 		wxITEM_NORMAL,
 	);
 
@@ -164,7 +164,7 @@ sub new {
 		$self->{server},
 		-1,
 		"Status",
-		'',
+		"Get Server Status",
 		wxITEM_NORMAL,
 	);
 
@@ -205,7 +205,7 @@ sub new {
 		$self->{m_menu3},
 		-1,
 		"Continue Simple",
-		'',
+		"Send Continue Merssage",
 		wxITEM_NORMAL,
 	);
 
@@ -221,7 +221,7 @@ sub new {
 		$self->{m_menu3},
 		-1,
 		"Continue Function",
-		'',
+		"Send Message Continue to Function",
 		wxITEM_NORMAL,
 	);
 
@@ -237,7 +237,7 @@ sub new {
 		$self->{m_menu3},
 		-1,
 		"Continue Line",
-		'',
+		"Send Message Continue to Line number",
 		wxITEM_NORMAL,
 	);
 
@@ -253,7 +253,7 @@ sub new {
 		$self->{m_menu3},
 		-1,
 		"Continue File",
-		'',
+		"Send Message Continue to File and Line",
 		wxITEM_NORMAL,
 	);
 
