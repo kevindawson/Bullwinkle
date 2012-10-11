@@ -37,7 +37,10 @@ has 'recived' => (
 	default => sub {
 		my $self = shift;
 
-		return { recived => 'with thanks', };
+		return { 
+			recived => 'with thanks', 
+			echo => 'echo', 
+			};
 	},
 );
 has 'status' => (
