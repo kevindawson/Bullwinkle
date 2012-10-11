@@ -7,8 +7,9 @@ our $VERSION = '0.01_03';
 use autodie qw(:all);             # Recommended more: defaults and system/exec.
 
 use Moo;
+extends 'Bullwinkle::Server::IO';
 use Bullwinkle::Server::Response;
-use IO::Socket::IP 0.17;
+
 use Carp 1.20 qw(carp croak);
 use Try::Tiny;
 use JSON::XS;
@@ -21,124 +22,112 @@ use Data::Printer {
 	caller_info => 0,
 	colored     => 1,
 };
+use constant {
+	TRUE  => 1,
+	FALSE => 0,
+};
 
 
-
-has 'api' => (
-	is      => 'ro',
-	default => sub {
-		my $self = shift;
-		return $_[0] // 'No hablo';
-	},
-);
-has 'port' => (
-	is      => 'ro',
-	default => sub {
-		my $self = shift;
-		return $_[0] // '9000';
-	},
-);
-has 'host' => (
-	is      => 'ro',
-	default => sub {
-		my $self = shift;
-		return $_[0] // '127.0.0.1';
-
-	},
-);
-has 'file' => (
-	is      => 'ro',
-	default => sub {
-		my $self = shift;
-		return $_[0] // "I don't need a file as I just pretend";
-
-	},
-);
-
-sub run {
+sub init {
 	my $self     = shift;
 	my $response = Bullwinkle::Server::Response->new;
 	$self->{response} = $response;
-	$self->start_host;
-	$self->service_socket;
-
-	return;
+	return 1;
 }
 
-sub start_host {
+
+sub run {
 	my $self = shift;
 
-	say $self->{host} . ':' . $self->{port};
+	$self->init;
+	$self->start_host;
+	# $self->start_host( $self->{transport} );
 
+	say 'is_listening = ' . $self->is_listening;
 
-	#for IO::Socket::IP
-	$self->{porto}      = 'tcp';
-	$self->{listen}     = 1;
-	$self->{reuse_addr} = 1;
+	if ( $self->is_listening eq TRUE ) {
 
+		# $self->accept;
+		say 'polling socket';
+		$self->service_socket;
 
-	# Open a socket for the bullwinkle client to connect to.
-	my $sock = IO::Socket::IP->new(
-		LocalHost => $self->{host},
-		LocalPort => $self->{port},
-		Proto     => $self->{porto},
-		Listen    => $self->{listen},
-		ReuseAddr => $self->{reuse_addr},
-
-		# Open      => 1,
-	) or carp "Could not establish the socket $self->{host}:$self->{port} ->$ERRNO";
-	$self->{socket} = $sock->accept() or carp; #die sprintf "ERRRR(%d)(%s)(%d)(%s)", $!, $!, $^E, $^E;
+	} else {
+		say 'exiting see error above';
+	}
 
 	return;
 }
+
 
 sub service_socket {
 	my $self = shift;
 
-	my $msg = sprintf(
-		"Waiting for a connection on port %d at address %s...",
-		$self->{port}, $self->{host}
-	);
-	say $msg;
+	$self->accept;
 	my $socket = $self->{socket};
-	my $client_host   = $socket->peerhost;
-	my $client_port   = $socket->peerport;
+
+	my $client_host = $socket->peerhost;
+	my $client_port = $socket->peerport;
 	say "Received connection from Client $client_host:$client_port";
 
 	#send initialisation message
 	$self->json_to_client( $self->{response}->init );
 
 	while (<$socket>) {
-		my $client_json = $_;
-		p $client_json;
-		my $perl_scalar;
-		try {
-			$perl_scalar = JSON::XS->new->utf8->decode($client_json);
-
-			# eitor or depending on your preferance
-			# p $perl_scalar;
-			say Data::Dumper::Dumper( JSON::XS->new->utf8->decode($client_json) );
-		}
-		catch {
-			$self->json_to_client( $self->{response}->bullwinkle );
-		};
-
-		given ($perl_scalar) {
-			when ( defined $perl_scalar->{quit} ) { $self->close_socket; last; }
-			when ( defined $perl_scalar->{status} ) { $self->status($perl_scalar) }
-
-			# when ( $_ eq 'incompatible' ) { $self->{list}->SetItemTextColour( $index, DARK_GRAY ); }
-			# when ( $_ eq 'error' )        { $self->{list}->SetItemTextColour( $index, RED ); }
-			default { $self->json_to_client( $self->{response}->recived ); }
-
-		}
+		# p $_;
+		$self->send_response($_);
 	}
 
 	return;
 }
 
 #######
-# Internal Method _send
+# composed method recived_data
+#######
+sub check_data {
+	my $self    = shift;
+	my $data    = shift;
+	my $is_json = TRUE;
+
+	#echo to console
+	p $data;
+
+	try {
+		$self->{perl_scalar} = JSON::XS->new->utf8->decode($data) // undef;
+		# say Data::Dumper::Dumper( JSON::XS->new->utf8->decode($data) );
+	}
+	catch {
+		$self->json_to_client( $self->{response}->bullwinkle );
+		$is_json = FALSE;
+	};
+
+	return $is_json;
+}
+#######
+# composed method recived_data
+#######
+sub send_response {
+	my $self = shift;
+	my $data = shift;
+
+	if ( $self->check_data($data) ) {
+
+		given ( $self->{perl_scalar} ) {
+			when ( defined $self->{perl_scalar}->{quit} ) { $self->close_socket; last; }
+			when ( defined $self->{perl_scalar}->{status} )                   { $self->status( $self->{perl_scalar} ) }
+			when ( defined $self->{perl_scalar}->{continue}{location}{file} ) { $self->continue_file; }
+
+			# when ( $_ eq 'error' )        { $self->{list}->SetItemTextColour( $index, RED ); }
+			default { $self->recived( $self->{perl_scalar} ); }
+
+		}
+	}
+	return;
+}
+
+
+
+#######
+# Response messages
 #######
 sub text_to_client {
 	my $self  = shift;
@@ -168,11 +157,29 @@ sub close_socket {
 sub status {
 	my $self   = shift;
 	my $status = shift;
-	p $status;
+
+	# p $status;
 	$self->json_to_client( $self->{response}->status );
 	return;
 }
 
+sub continue_file {
+	my $self = shift;
+	$self->json_to_client( $self->{response}->continue_file );
+	return;
+}
+
+
+sub recived {
+	my $self   = shift;
+	my $echo   = shift;
+	my $output = $self->{response}->recived;
+	# p $output;
+	$output->{echo} = $echo;
+	# p $output;
+	$self->json_to_client($output);
+	return;
+}
 
 
 1; # Magic true value required at end of module
