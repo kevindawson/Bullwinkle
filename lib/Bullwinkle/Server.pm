@@ -117,7 +117,7 @@ sub send_response {
 			when ( defined $self->{perl_scalar}->{continue}{location}{file} ) { $self->continue_file; }
 
 			# when ( $_ eq 'error' )        { $self->{list}->SetItemTextColour( $index, RED ); }
-			default { $self->recived( $self->{perl_scalar} ); }
+			default { $self->received( $self->{perl_scalar} ); }
 
 		}
 	}
@@ -170,10 +170,10 @@ sub continue_file {
 }
 
 
-sub recived {
+sub received {
 	my $self   = shift;
 	my $echo   = shift;
-	my $output = $self->{response}->recived;
+	my $output = $self->{response}->received;
 	# p $output;
 	$output->{echo} = $echo;
 	# p $output;
