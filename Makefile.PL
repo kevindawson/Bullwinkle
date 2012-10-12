@@ -20,6 +20,7 @@ requires Data::Dumper         2.131
 requires Data::Printer        0.33
 
 test_requires Test::More  0.98
+test_requires Test::Fork  0.02
 
 homepage    https://github.com/kevindawson/Bullwinkle
 bugtracker  https://github.com/kevindawson/Bullwinkle/issues

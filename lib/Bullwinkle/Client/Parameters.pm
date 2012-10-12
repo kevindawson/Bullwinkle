@@ -1,7 +1,7 @@
 package Bullwinkle::Client::Parameters;
 
 use v5.10;
-our $VERSION = '0.01_03';
+our $VERSION = '0.01_04';
 use Moo;
 
 has 'api' => (

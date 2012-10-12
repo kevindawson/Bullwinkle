@@ -4,7 +4,7 @@
 use v5.10;
 use warnings;
 use strict;
-our $VERSION = '0.01_03';
+our $VERSION = '0.01_04';
 use Carp::Always::Color;
 use Carp 1.20 qw(carp croak);
 use Try::Tiny;
@@ -51,7 +51,6 @@ my $server = IO::Socket::IP->new(
 say "Multiplex server running on port $port...";
 
 while ( my $connection = $server->accept ) {
-
 
 	# Decrement the semaphore only if it would immediately succeed.
 	if ( $semaphore->down_nb() ) {
@@ -105,7 +104,6 @@ sub connection {
 
 	return;
 }
-
 
 
 exit(0);

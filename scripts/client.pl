@@ -12,7 +12,7 @@ use lib ("$Bin/../lib");
 
 use Bullwinkle::Client ();
 
-our $VERSION = '0.01_03';
+our $VERSION = '0.01_04';
 
 Bullwinkle::Client->run;
 
