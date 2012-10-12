@@ -8,8 +8,9 @@ local $OUTPUT_AUTOFLUSH = 1;
 
 use Bullwinkle::Client::FBP::Main ();
 use Bullwinkle::Client::Commands;
+use Bullwinkle::Client::IO;
 
-use IO::Socket::IP 0.17;
+# use IO::Socket::IP 0.17;
 use Carp 1.20 qw(carp croak);
 use Try::Tiny;
 use JSON::XS;
@@ -35,8 +36,12 @@ use parent qw(
 # setup
 #######
 my $commands = Bullwinkle::Client::Commands->new;
+my $io       = Bullwinkle::Client::IO->new;
+p $io;
+p $io->is_connected;
+
+# my $connect_flag = 0;
 my $socket;
-my $connect_flag = 0;
 
 # p $commands;
 say 'Client running, see status bar for info messages';
@@ -70,10 +75,11 @@ sub on_send_clicked {
 	my $self = shift;
 
 	my $data = BLANK;
-	if ($connect_flag) {
+	if ( $io->is_connected ) {
 
 		my $json_text = $self->client_json->GetValue;
 		if ( $json_text eq BLANK ) { return; }
+
 		# my $perl_scalar;
 		try {
 			my $perl_scalar = JSON::XS->new->utf8->decode($json_text);
@@ -123,64 +129,94 @@ sub on_decode_clicked {
 #######
 # event handlers for menu options
 #######
-sub connect_to_server {
-	my $self = shift;
+# sub connect_to_server {
+# my $self = shift;
 
-	unless ($connect_flag) {
+# unless ($connect_flag) {
 
-		$self->{host} //= '127.0.0.1';
+# $self->{host} //= '127.0.0.1';
 
-		$self->{port} //= 9_000;
-		# $self->{port} //= 4_567;
+# $self->{port} //= 9_000;
+# # $self->{port} //= 4_567;
 
-		try {
-			# Connect to Bullwinkle Server.
-			$socket = IO::Socket::IP->new(
-				PeerAddr => $self->{host},
-				PeerPort => $self->{port},
-				Proto    => $self->{porto} // 'tcp',
+# try {
+# # Connect to Bullwinkle Server.
+# $socket = IO::Socket::IP->new(
+# PeerAddr => $self->{host},
+# PeerPort => $self->{port},
+# Proto    => $self->{porto} // 'tcp',
 
-			) or die; #or carp "Could not connect to host 127.0.0.1:9000 ->$ERRNO";
+# ) or die; #or carp "Could not connect to host 127.0.0.1:9000 ->$ERRNO";
 
-		}
-		catch {
-			$self->disconnect_from_server;
-			$self->{status_bar}->SetStatusText( sprintf( "Info: %s", $ERRNO ) );
-			return;
-		}
-		finally {
-			unless (@_) {
+# }
+# catch {
+# $self->disconnect_from_server;
+# $self->{status_bar}->SetStatusText( sprintf( "Info: %s", $ERRNO ) );
+# return;
+# }
+# finally {
+# unless (@_) {
 
-				$connect_flag = 1;
-				$self->{send}->Enable;
-				$self->{status_bar}->SetStatusText(
-					sprintf(
-						"Connected to a Bullwinkle Server %s:%s",
-						$self->{host},
-						$self->{port},
-					)
-				);
-				$socket->recv( my $data, 1024 );
-				$self->server_json->SetValue($data);
-				$self->on_decode_clicked;
+# $connect_flag = 1;
+# $self->{send}->Enable;
+# $self->{status_bar}->SetStatusText(
+# sprintf(
+# "Connected to a Bullwinkle Server %s:%s",
+# $self->{host},
+# $self->{port},
+# )
+# );
+# $socket->recv( my $data, 1024 );
+# $self->server_json->SetValue($data);
+# $self->on_decode_clicked;
 
-			}
-		};
+# }
+# };
 
-	}
+# }
 
-	return;
-}
+# return;
+# }
 
 sub disconnect_from_server {
 	my $self = shift;
-	if ($connect_flag) {
-		close $socket or carp;
-	}
-	$connect_flag = 0;
+
+	$io->disconnect;
+
 	$self->{send}->Disable;
 	$self->auto_run;
 	$self->{status_bar}->SetStatusText('Disconnected from Bullwinkle Server');
+	return;
+}
+
+#######
+# event handlers for menu options
+#######
+sub connect_to_server {
+	my $self = shift;
+
+	$socket = $io->start_connection;
+
+	if ( $io->is_connected ) {
+
+		# $self->connected( TRUE );
+		$self->{send}->Enable;
+		$self->{status_bar}->SetStatusText(
+			sprintf(
+				"Connected to a Bullwinkle Server %s:%s",
+				$io->{host},
+				$io->{port},
+			)
+		);
+		$socket->recv( my $data, 1024 );
+		$self->server_json->SetValue($data);
+		$self->on_decode_clicked;
+
+	} else {
+		$self->disconnect_from_server;
+		$self->{status_bar}->SetStatusText( sprintf( "Info: %s", $ERRNO ) );
+	}
+
 	return;
 }
 
@@ -220,7 +256,7 @@ sub auto_run {
 	$self->server_json->SetValue(BLANK);
 	$self->server_perl->SetValue(BLANK);
 
-	if ($connect_flag) {
+	if ( $io->is_connected ) {
 		$self->on_encode_clicked;
 		$self->on_send_clicked;
 		$self->on_decode_clicked;
