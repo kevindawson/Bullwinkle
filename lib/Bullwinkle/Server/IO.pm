@@ -25,27 +25,18 @@ use constant {
 # as requested, see role
 sub is_listening {
 	my $self = shift;
-
-	# print 'is_listening -> ';
-	if ( $self->{listening} eq TRUE ) {
-
-		# say 'Yes, ready and ...';
-		return $self->{listening};
-	} else {
-
-		# say 'nope some thing went wrong';
-		return $self->{listening};
-	}
+	return $self->{listening};
 }
 
 #######
 # run required transport
 #######
 sub start_host {
-	my $self      = shift;
+	my $self = shift;
+
 	# my $transport = shift;
 
-	given ($self->{transport}) {
+	given ( $self->{transport} ) {
 		when ( $_ eq 'tcp/ip' ) { $self->tcp_ip; }
 
 		# default { $self->tcp_ip; }
