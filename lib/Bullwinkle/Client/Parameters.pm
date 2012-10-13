@@ -57,3 +57,73 @@ sub show_parameters {
 
 
 1;
+
+__END__
+
+=pod
+
+=head1 NAME
+
+Bullwinkle::Client::Parameters.
+
+=head1 VERSION
+
+version  0.01_01
+
+=head1 DESCRIPTION
+
+Provides the Message blocks for the Bullwinkle Test Server
+
+
+=head1 METHODS
+
+=over 4
+
+=item * show_parameters
+
+=back
+
+=head1 ATTRIBUTES
+
+=over 4
+
+=item *	api
+
+=item *	file
+
+=item *	host
+
+=item *	port
+
+=item *	transport
+
+=back
+
+=head1 BUGS AND LIMITATIONS
+
+None known.
+
+=head1 DEPENDENCIES
+
+Moo
+
+=head1 SEE ALSO
+
+Bullwinkle::Client::Commands
+
+
+=head1 AUTHOR
+
+Kevin Dawson E<lt>bowtie@cpan.orgE<gt>
+
+Rocky Bernstein E<lt>rocky@cpan.orgE<gt>
+
+=head1 LICENCE AND COPYRIGHT
+
+Copyright &copy 2012, Kevin Dawson E<lt>bowtie@cpan.orgE<gt> Rocky Bernstein E<lt>rocky@cpan.orgE<gt>. All rights reserved.
+
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut

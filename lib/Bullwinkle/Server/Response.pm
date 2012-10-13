@@ -116,7 +116,9 @@ Provides the Message blocks for the Bullwinkle Test Server
 
 =item *	init
 
-=item *	recived
+=item *	quit
+
+=item *	received
 
 =item *	status
 

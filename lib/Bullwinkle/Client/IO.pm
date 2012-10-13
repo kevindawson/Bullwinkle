@@ -65,3 +65,61 @@ sub disconnect {
 
 
 1;
+
+__END__
+
+=pod
+
+=head1 NAME
+
+Bullwinkle::Client::IO.
+
+=head1 VERSION
+
+version  0.01_04
+
+=head1 DESCRIPTION
+
+IO for the Bullwinkle Test Client
+
+
+=head1 METHODS
+
+=over 4
+
+=item *	disconnect
+
+=item *	is_connected
+
+=item *	start_connection
+
+=back
+
+=head1 BUGS AND LIMITATIONS
+
+None known.
+
+=head1 DEPENDENCIES
+
+Moo
+
+=head1 SEE ALSO
+
+Bullwinkle::Client
+
+
+=head1 AUTHOR
+
+Kevin Dawson E<lt>bowtie@cpan.orgE<gt>
+
+Rocky Bernstein E<lt>rocky@cpan.orgE<gt>
+
+=head1 LICENCE AND COPYRIGHT
+
+Copyright &copy 2012, Kevin Dawson E<lt>bowtie@cpan.orgE<gt> Rocky Bernstein E<lt>rocky@cpan.orgE<gt>. All rights reserved.
+
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut

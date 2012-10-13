@@ -49,6 +49,10 @@ This document describes Bullwinkle::Client version  0.01_04
 
 =head1 SYNOPSIS
 
+	perl scripts/client.pl
+
+or 
+
     use Bullwinkle::Client;
 
 =for author to fill in:
@@ -74,9 +78,13 @@ This document describes Bullwinkle::Client version  0.01_04
 
 =head1 METHODS
 
+=over 2
+
 =item * run
 
 =item * OnInit
+
+=back
 
 =head1 DIAGNOSTICS
 
@@ -190,3 +198,4 @@ RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A
 FAILURE OF THE SOFTWARE TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
 SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGES.
+

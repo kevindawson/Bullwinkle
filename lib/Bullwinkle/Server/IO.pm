@@ -102,3 +102,64 @@ sub accept {
 
 
 1;
+
+__END__
+
+
+=pod
+
+=head1 NAME
+
+Bullwinkle::Server::IO.
+
+=head1 VERSION
+
+version  0.01_04
+
+=head1 DESCRIPTION
+
+IO for the Bullwinkle Test Server
+
+=head1 METHODS
+
+=over 4
+
+=item * accept
+
+=item *	is_listening
+
+=item * start_host
+
+=item * tcp_ip
+
+=back
+
+
+=head1 BUGS AND LIMITATIONS
+
+None known.
+
+=head1 DEPENDENCIES
+
+Moo
+
+=head1 SEE ALSO
+
+Bullwinkle::Client
+
+
+=head1 AUTHOR
+
+Kevin Dawson E<lt>bowtie@cpan.orgE<gt>
+
+Rocky Bernstein E<lt>rocky@cpan.orgE<gt>
+
+=head1 LICENCE AND COPYRIGHT
+
+Copyright &copy 2012, Kevin Dawson E<lt>bowtie@cpan.orgE<gt> Rocky Bernstein E<lt>rocky@cpan.orgE<gt>. All rights reserved.
+
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut

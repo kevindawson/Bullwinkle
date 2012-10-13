@@ -183,7 +183,9 @@ sub received {
 
 
 1; # Magic true value required at end of module
+
 __END__
+
 
 =head1 NAME
 
@@ -216,34 +218,30 @@ This document describes Bullwinkle::Server version  0.01_04
 
 =over 4
 
+=item * check_data
+
 =item *	close_socket
+
+=item * continue_file
+
+=item * init
 
 =item *	json_to_client
 
+=item *	received
+
 =item *	run
+
+=item *	send_response
 
 =item *	service_socket
 
-=item *	start_host
+=item *	status
 
 =item *	text_to_client
 
 =back
 
-
-=head1 ATTRIBUTES
-
-=over 4
-
-=item *	api
-
-=item *	port
-
-=item *	host
-
-=item *	file
-
-=back
 
 =head1 INTERFACE 
 
