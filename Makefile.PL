@@ -1,3 +1,4 @@
+use 5.010001;
 use inc::Module::Install::DSL 1.06;
 
 all_from lib/Bullwinkle/Client.pm
@@ -19,8 +20,12 @@ requires JSON::XS             2.33
 requires Data::Dumper         2.131
 requires Data::Printer        0.33
 
-test_requires Test::More  0.98
-test_requires Test::Fork  0.02
+
+test_requires Test::More           0.98
+test_requires Test::Fork           0.02
+test_requires Test::Pod            1.14
+test_requires Test::Pod::Coverage  1.08
+
 
 homepage    https://github.com/kevindawson/Bullwinkle
 bugtracker  https://github.com/kevindawson/Bullwinkle/issues
