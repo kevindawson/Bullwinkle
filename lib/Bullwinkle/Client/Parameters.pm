@@ -68,11 +68,11 @@ Bullwinkle::Client::Parameters.
 
 =head1 VERSION
 
-version  0.01_01
+version  0.01_04
 
 =head1 DESCRIPTION
 
-Provides the Message blocks for the Bullwinkle Test Server
+Provides the IO Parameters for the Bullwinkle Client
 
 
 =head1 METHODS
@@ -109,7 +109,7 @@ Moo
 
 =head1 SEE ALSO
 
-Bullwinkle::Client::Commands
+Bullwinkle::Client::IO
 
 
 =head1 AUTHOR
