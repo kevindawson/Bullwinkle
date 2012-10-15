@@ -7,8 +7,7 @@ use warnings;
 use Carp::Always::Color;
 
 use FindBin qw($Bin);
-use lib ("$Bin/../lib");
-
+use lib map "$Bin/$_", 'lib', '../lib';
 
 use Bullwinkle::Client ();
 
