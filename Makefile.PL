@@ -23,6 +23,7 @@ requires Data::Printer        0.33
 
 test_requires Test::More           0.98
 test_requires Test::Fork           0.02
+test_requires Test::SharedFork     0.20
 test_requires Test::Pod            1.14
 test_requires Test::Pod::Coverage  1.08
 test_requires Perl::Critic         1.098
