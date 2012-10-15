@@ -29,7 +29,7 @@ if ($server) {
 
 		# parent
 		$server->run;
-		is( $server->is_listening, 1, 'running server' );
+		is( $server->is_listening, 1, 'Server is running' );
 		waitpid( $pid, 0 );
 	} else {
 		die $!;
