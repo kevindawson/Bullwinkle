@@ -9,9 +9,9 @@ use Data::Printer {
 	caller_info => 1,
 	colored     => 1,
 };
-use FindBin qw($Bin);
-use lib ("$Bin/../lib");
 
+use FindBin qw($Bin);
+use lib map "$Bin/$_", 'lib', '../lib';
 
 use Bullwinkle::Server ();
 
