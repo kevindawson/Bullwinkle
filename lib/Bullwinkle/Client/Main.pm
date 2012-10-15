@@ -320,6 +320,8 @@ This document describes Bullwinkle::Client::Main version  0.01_04
 
 =item *	disconnect_from_server
 
+=item * new
+
 =item *	on_decode_clicked
 
 =item *	on_encode_clicked
