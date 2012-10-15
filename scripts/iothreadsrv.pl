@@ -14,7 +14,7 @@ use Data::Printer {
 };
 
 use FindBin qw($Bin);
-use lib ("$Bin/../lib");
+use lib map "$Bin/$_", 'lib', '../lib';
 
 BEGIN {
 	use Config;
