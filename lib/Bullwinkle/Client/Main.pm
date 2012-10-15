@@ -32,20 +32,41 @@ use parent qw(
 	Bullwinkle::Client::FBP::Main
 );
 
+
 #######
-# setup
+# Method new
 #######
-my $commands = Bullwinkle::Client::Commands->new;
-my $io       = Bullwinkle::Client::IO->new;
-# p $io;
-# p $io->is_connected;
+sub new {
+	my ( $class, @args ) = @_; # What class are we constructing?
 
-# my $connect_flag = 0;
-my $socket;
+	my $self = $class->SUPER::new();
 
-# p $commands;
-say 'Client running, see status bar for info messages';
+	$self->_initialize(@args);
+	p $self;
 
+	return $self;
+}
+
+#######
+# _initialize
+#######
+sub _initialize {
+	my ( $self, %args ) = @_;
+
+	#ToDo pram passing all the way from client.pl
+	# $self->{local_host} = $args{host}  // 'localhost';
+	# $self->{local_port} = $args{port}  // 9_000;
+	# $self->{porto}      = $args{proto} // 'tcp';
+
+	my $io = Bullwinkle::Client::IO->new;
+	$self->{input_output} = $io;
+	$self->{input_output}->show_parameters;
+
+	my $commands = Bullwinkle::Client::Commands->new;
+	$self->{commands} = $commands;
+
+	say 'Client running, see status bar for info messages';
+}
 
 
 #######
@@ -75,7 +96,7 @@ sub on_send_clicked {
 	my $self = shift;
 
 	my $data = BLANK;
-	if ( $io->is_connected ) {
+	if ( $self->{input_output}->is_connected ) {
 
 		my $json_text = $self->client_json->GetValue;
 		if ( $json_text eq BLANK ) { return; }
@@ -83,12 +104,14 @@ sub on_send_clicked {
 		# my $perl_scalar;
 		try {
 			my $perl_scalar = JSON::XS->new->utf8->decode($json_text);
-			print {$socket} JSON::XS->new->utf8->encode($perl_scalar) . "\n";
+
+			$self->{input_output}->send( JSON::XS->new->utf8->encode($perl_scalar) . "\n" );
 		}
 		catch {
-			print {$socket} "$json_text";
+			$self->{input_output}->send($json_text);
 		};
-		$socket->recv( $data, 1024 );
+
+		$data = $self->{input_output}->receive;
 	}
 	p $data;
 	$self->server_json->SetValue($data);
@@ -129,7 +152,7 @@ sub on_decode_clicked {
 sub disconnect_from_server {
 	my $self = shift;
 
-	$io->disconnect;
+	$self->{input_output}->disconnect;
 
 	$self->{send}->Disable;
 	$self->auto_run;
@@ -143,20 +166,20 @@ sub disconnect_from_server {
 sub connect_to_server {
 	my $self = shift;
 
-	$socket = $io->start_connection;
+	$self->{input_output}->start_connection;
 
-	if ( $io->is_connected ) {
+	if ( $self->{input_output}->is_connected ) {
 
-		# $self->connected( TRUE );
 		$self->{send}->Enable;
 		$self->{status_bar}->SetStatusText(
 			sprintf(
 				"Connected to a Bullwinkle Server %s:%s",
-				$io->{host},
-				$io->{port},
+				$self->{input_output}->{host},
+				$self->{input_output}->{port},
 			)
 		);
-		$socket->recv( my $data, 1024 );
+
+		my $data = $self->{input_output}->receive;
 		$self->server_json->SetValue($data);
 		$self->on_decode_clicked;
 
@@ -172,7 +195,7 @@ sub connect_to_server {
 sub status {
 	my $self = shift;
 
-	my $output = Data::Dumper::Dumper( $commands->status );
+	my $output = Data::Dumper::Dumper( $self->{commands}->status );
 	$self->client_perl->SetValue($output);
 
 	$self->auto_run;
@@ -182,17 +205,11 @@ sub status {
 sub quit {
 	my $self = shift;
 
-	my $output = Data::Dumper::Dumper( $commands->quit );
+	my $output = Data::Dumper::Dumper( $self->{commands}->quit );
 	$self->client_perl->SetValue($output);
 
 	$self->auto_run;
 	$self->disconnect_from_server;
-
-	# if ($connect_flag) {
-	# close $socket or carp;
-	# }
-	# $connect_flag = 0;
-	# $self->{send}->Disable;
 
 	return;
 }
@@ -204,7 +221,7 @@ sub auto_run {
 	$self->server_json->SetValue(BLANK);
 	$self->server_perl->SetValue(BLANK);
 
-	if ( $io->is_connected ) {
+	if ( $self->{input_output}->is_connected ) {
 		$self->on_encode_clicked;
 		$self->on_send_clicked;
 		$self->on_decode_clicked;
@@ -217,7 +234,7 @@ sub auto_run {
 sub continue_null {
 	my $self = shift;
 
-	my $output = Data::Dumper::Dumper( $commands->continue_null );
+	my $output = Data::Dumper::Dumper( $self->{commands}->continue_null );
 	$self->client_perl->SetValue($output);
 	$self->auto_run;
 
@@ -227,7 +244,7 @@ sub continue_null {
 sub continue_function {
 	my $self = shift;
 
-	my $output = Data::Dumper::Dumper( $commands->continue_function );
+	my $output = Data::Dumper::Dumper( $self->{commands}->continue_function );
 	$self->client_perl->SetValue($output);
 	$self->auto_run;
 
@@ -237,7 +254,7 @@ sub continue_function {
 sub continue_line {
 	my $self = shift;
 
-	my $output = Data::Dumper::Dumper( $commands->continue_line );
+	my $output = Data::Dumper::Dumper( $self->{commands}->continue_line );
 	$self->client_perl->SetValue($output);
 	$self->auto_run;
 
@@ -247,7 +264,7 @@ sub continue_line {
 sub continue_file {
 	my $self = shift;
 
-	my $output = Data::Dumper::Dumper( $commands->continue_file );
+	my $output = Data::Dumper::Dumper( $self->{commands}->continue_file );
 	$self->client_perl->SetValue($output);
 	$self->auto_run;
 
