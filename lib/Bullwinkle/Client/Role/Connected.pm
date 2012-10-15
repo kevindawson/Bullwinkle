@@ -63,12 +63,19 @@ Kevin Dawson E<lt>bowtie@cpan.orgE<gt>
 
 Rocky Bernstein E<lt>rocky@cpan.orgE<gt>
 
-=head1 LICENCE AND COPYRIGHT
 
-Copyright &copy 2012, Kevin Dawson E<lt>bowtie@cpan.orgE<gt> Rocky Bernstein E<lt>rocky@cpan.orgE<gt>. All rights reserved.
+=head2 CONTRIBUTORS
 
 
-This is free software; you can redistribute it and/or modify it under
-the same terms as the Perl 5 programming language system itself.
+=head1 COPYRIGHT
+ 
+Copyright E<copy> 2012, the Bullwinkle L</AUTHOR> and L</CONTRIBUTORS>
+as listed above.
+
+=head1 LICENSE
+ 
+This library is free software and may be distributed under the same terms
+as perl itself.
+
 
 =cut
