@@ -43,12 +43,12 @@ sub run {
 	$self->start_host;
 	# $self->start_host( $self->{transport} );
 
-	say 'is_listening = ' . $self->is_listening;
+	# say 'is_listening = ' . $self->is_listening;
 
 	if ( $self->is_listening eq TRUE ) {
 
 		# $self->accept;
-		say 'polling socket';
+		# say 'polling socket';
 		$self->service_socket;
 
 	} else {
