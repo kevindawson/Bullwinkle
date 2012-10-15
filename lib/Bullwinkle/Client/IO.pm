@@ -20,6 +20,8 @@ use Data::Printer {
 use constant {
 	TRUE  => 1,
 	FALSE => 0,
+	BLANK => qq{ },
+	NONE  => q{},
 };
 
 # as requested, see role
@@ -38,7 +40,7 @@ sub start_connection {
 
 		try {
 			# Connect to Bullwinkle Server.
-			$self->{Socket} = IO::Socket::IP->new(
+			$self->{client_socket} = IO::Socket::IP->new(
 				PeerAddr => $self->{host},
 				PeerPort => $self->{port},
 				Proto    => $self->{porto} // 'tcp',
@@ -49,19 +51,36 @@ sub start_connection {
 
 	}
 
-	return $self->{Socket};
+	return;# $self->{client_socket};
 }
 
 sub disconnect {
 	my $self = shift;
-	if ( $self->is_connected ) {
-		close $self->{Socket} or carp;
+	if ( $self->is_connected eq TRUE ) {
+		close $self->{client_socket} or carp;
 	}
 	$self->connected(FALSE);
 	return;
 }
 
+sub send {
+	my ( $self, @data ) = @_;
 
+	if ( $self->is_connected eq TRUE ) {
+		print { $self->{client_socket} } "@data";
+	}
+
+	return;
+}
+
+sub receive {
+	my $self = shift;
+	my $data = BLANK;
+	if ( $self->is_connected eq TRUE ) {
+		$self->{client_socket}->recv( $data, 1024 );
+	}
+	return $data;
+}
 
 
 1;
@@ -90,6 +109,10 @@ IO for the Bullwinkle Test Client
 =item *	disconnect
 
 =item *	is_connected
+
+=item * receive
+
+=item * send
 
 =item *	start_connection
 
