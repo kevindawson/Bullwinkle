@@ -29,7 +29,7 @@ if ($server) {
 		1,
 		sub {
 			$server->run;
-			is( $server->is_listening, 1, 'running server' );
+			is( $server->is_listening, 1, 'Server is running' );
 
 		}
 	);
