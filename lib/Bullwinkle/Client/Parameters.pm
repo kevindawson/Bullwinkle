@@ -3,6 +3,10 @@ package Bullwinkle::Client::Parameters;
 use v5.10;
 our $VERSION = '0.01_04';
 use Moo;
+use Data::Printer {
+	caller_info => 1,
+	colored     => 1,
+};
 
 has 'api' => (
 	is      => 'ro',
@@ -47,12 +51,15 @@ has 'transport' => (
 
 sub show_parameters {
 	my $self = shift;
-	say 'api: ' . $self->api;
-	say 'port: ' . $self->port;
-	say 'host: ' . $self->host;
-	say 'file: ' . $self->file;
-	say 'transport: ' . $self->transport;
-	return;
+	my $current_values = { 
+		api => $self->api,
+		port => $self->port,
+		host => $self->host,
+		file => $self->file,
+		transport => $self->transport,
+	};
+	# p $current_values;
+	return $current_values;
 }
 
 

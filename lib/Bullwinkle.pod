@@ -1,71 +1,25 @@
-package Bullwinkle::Client;
-
-use 5.010;
-use utf8;
-use strict;
-use warnings;
-use Wx 0.99 ':everything';
-
-our $VERSION = '0.01_04';
-use parent qw(
-	Wx::App
-);
-
-
-sub run {
-	my $class = shift;
-	my $self  = $class->new(@_);
-	return $self->MainLoop;
-}
-
-sub OnInit {
-	my $self = shift;
-
-	# Create the primary frame
-	require Bullwinkle::Client::Main;
-	$self->SetTopWindow( Bullwinkle::Client::Main->new );
-
-	# Don't flash frames on the screen in tests
-	unless ( $ENV{HARNESS_ACTIVE} ) {
-		$self->GetTopWindow->Show(1);
-	}
-
-	return 1;
-}
-
-sub DESTROY {
-	my $self = shift;
-	return;
-}
-
-
-
-1; # Magic true value required at end of module
-
-__END__
-
 =head1 NAME
 
-Bullwinkle::Client - [One line description of module's purpose here]
+Bullwinkle - "This time, for sure!" Bullwinkle.
 
 
 =head1 VERSION
 
-This document describes Bullwinkle::Client version  0.01_04
+This document describes Bullwinkle version  0.01_04
 
 
 =head1 SYNOPSIS
 
-	perl scripts/client.pl
+Bullwinkle is a protocol / Debugger API, to define how a Server (Debugger) and Client (GUI App) will communicate with each other, based on DBGp.
 
-or 
+The catalyst for this is getting the following to work with each other:
 
-    use Bullwinkle::Client;
+    Perl Debugger Devel::Trepan
+    Padre, the Perl IDE.
 
-=for author to fill in:
-    Brief code example(s) here showing commonest usage(s).
-    This section will be as far as many users bother reading
-    so make it as educational and exeplary as possible.
+As both Devel::Trepan and Padre are written in Perl all or most examples within will be in Perl.
+
+The outcome will hopefully be of use as a common GNU Debugger API to all.
   
   
 =head1 DESCRIPTION
@@ -73,6 +27,12 @@ or
 =for author to fill in:
     Write a full description of the module and its features here.
     Use subsections (=head2, =head3) as appropriate.
+
+
+=head1 METHODS
+
+
+=head2 ATTRIBUTES
 
 
 =head1 INTERFACE 
@@ -83,15 +43,6 @@ or
     exported, or methods that may be called on objects belonging to the
     classes provided by the module.
 
-=head1 METHODS
-
-=over 2
-
-=item * run
-
-=item * OnInit
-
-=back
 
 =head1 DIAGNOSTICS
 
@@ -101,19 +52,6 @@ or
     explanation of each problem, one or more likely causes, and any
     suggested remedies.
 
-=over
-
-=item C<< Error message here, perhaps with %s placeholders >>
-
-[Description of error here]
-
-=item C<< Another error message here >>
-
-[Description of error here]
-
-[Et cetera, et cetera]
-
-=back
 
 
 =head1 CONFIGURATION AND ENVIRONMENT
@@ -125,8 +63,6 @@ or
     that can be set. These descriptions must also include details of any
     configuration language used.
   
-Bullwinkle::Client requires no configuration files or environment variables.
-
 
 =head1 DEPENDENCIES
 
@@ -135,8 +71,6 @@ Bullwinkle::Client requires no configuration files or environment variables.
     including any restrictions on versions, and an indication whether
     the module is part of the standard Perl distribution, part of the
     module's distribution, or must be installed separately. ]
-
-None.
 
 
 =head1 INCOMPATIBILITIES
@@ -147,8 +81,6 @@ None.
     competition for system or program resources, or due to internal
     limitations of Perl (for example, many modules that use source code
     filters are mutually incompatible).
-
-None reported.
 
 
 =head1 BUGS AND LIMITATIONS
@@ -162,12 +94,6 @@ None reported.
     limitations on the size of data sets, special cases that are not
     (yet) handled, etc.
 
-No bugs have been reported.
-
-Please report any bugs or feature requests to
-C<bug-bullwinkle-client@rt.cpan.org>, or through the web interface at
-L<http://rt.cpan.org>.
-
 
 =head1 AUTHOR
 
@@ -175,12 +101,19 @@ Kevin Dawson E<lt>bowtie@cpan.orgE<gt>
 
 Rocky Bernstein E<lt>rocky@cpan.orgE<gt>
 
-=head1 LICENCE AND COPYRIGHT
 
-Copyright &copy 2012, Kevin Dawson E<lt>bowtie@cpan.orgE<gt> Rocky Bernstein E<lt>rocky@cpan.orgE<gt>. All rights reserved.
+=head2 CONTRIBUTORS
 
-This module is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself. See L<perlartistic>.
+
+=head1 COPYRIGHT
+ 
+Copyright E<copy> 2012, the Bullwinkle L</AUTHOR> and L</CONTRIBUTORS>
+as listed above.
+
+=head1 LICENSE
+ 
+This library is free software and may be distributed under the same terms
+as perl itself.
 
 
 =head1 DISCLAIMER OF WARRANTY
@@ -205,4 +138,3 @@ RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A
 FAILURE OF THE SOFTWARE TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
 SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGES.
-

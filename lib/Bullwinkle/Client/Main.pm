@@ -42,7 +42,7 @@ sub new {
 	my $self = $class->SUPER::new();
 
 	$self->_initialize(@args);
-	p $self;
+	# p $self;
 
 	return $self;
 }

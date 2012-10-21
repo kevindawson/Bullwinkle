@@ -28,7 +28,7 @@ test_requires Test::Pod            1.14
 test_requires Test::Pod::Coverage  1.08
 test_requires Perl::Critic         1.098
 test_requires Test::Perl::Critic   1.01
-
+test_requires Test::CPAN::Changes  0.19
 
 homepage    https://github.com/kevindawson/Bullwinkle
 bugtracker  https://github.com/kevindawson/Bullwinkle/issues
