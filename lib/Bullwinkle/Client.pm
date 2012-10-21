@@ -6,7 +6,7 @@ use strict;
 use warnings;
 use Wx 0.99 ':everything';
 
-our $VERSION = '0.01_04';
+our $VERSION = '0.01_05';
 use parent qw(
 	Wx::App
 );
@@ -51,7 +51,7 @@ Bullwinkle::Client - [One line description of module's purpose here]
 
 =head1 VERSION
 
-This document describes Bullwinkle::Client version  0.01_04
+This document describes Bullwinkle::Client version  0.01_05
 
 
 =head1 SYNOPSIS

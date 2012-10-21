@@ -1,6 +1,6 @@
 Revision history for Bullwinkle
 
-0.01_05  2012-TBA
+0.01_05  2012-10-21
        - Improve Basic POD coverage
        - tweak lib in scripts in a better way
        - Add some more test files

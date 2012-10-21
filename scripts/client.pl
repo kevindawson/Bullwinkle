@@ -11,7 +11,7 @@ use lib map "$Bin/$_", 'lib', '../lib';
 
 use Bullwinkle::Client ();
 
-our $VERSION = '0.01_04';
+our $VERSION = '0.01_05';
 
 Bullwinkle::Client->run;
 

@@ -1,7 +1,7 @@
 package Bullwinkle::Client::Parameters;
 
 use v5.10;
-our $VERSION = '0.01_04';
+our $VERSION = '0.01_05';
 use Moo;
 use Data::Printer {
 	caller_info => 1,
