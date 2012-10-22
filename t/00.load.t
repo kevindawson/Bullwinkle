@@ -11,7 +11,8 @@ use_ok( 'Wx' );
 use_ok( 'FindBin' );
 }
 
-diag( "Testing Bullwinkle $Bullwinkle::VERSION" );
+diag( "Info: Testing Bullwinkle v$Bullwinkle::Client::VERSION" );
+diag("Info: Perl $^V");
 
 ######
 # let's check our lib's are here.
