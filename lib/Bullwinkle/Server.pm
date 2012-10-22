@@ -41,14 +41,9 @@ sub run {
 
 	$self->init;
 	$self->start_host;
-	# $self->start_host( $self->{transport} );
-
-	# say 'is_listening = ' . $self->is_listening;
 
 	if ( $self->is_listening eq TRUE ) {
 
-		# $self->accept;
-		# say 'polling socket';
 		$self->service_socket;
 
 	} else {
@@ -73,7 +68,6 @@ sub service_socket {
 	$self->json_to_client( $self->{response}->init );
 
 	while (<$socket>) {
-		# p $_;
 		$self->send_response($_);
 	}
 
@@ -81,7 +75,7 @@ sub service_socket {
 }
 
 #######
-# composed method recived_data
+# composed method check_data
 #######
 sub check_data {
 	my $self    = shift;
@@ -102,8 +96,9 @@ sub check_data {
 
 	return $is_json;
 }
+
 #######
-# composed method recived_data
+# composed method send_response
 #######
 sub send_response {
 	my $self = shift;
@@ -115,10 +110,7 @@ sub send_response {
 			when ( defined $self->{perl_scalar}->{quit} ) { $self->close_socket; last; }
 			when ( defined $self->{perl_scalar}->{status} )                   { $self->status( $self->{perl_scalar} ) }
 			when ( defined $self->{perl_scalar}->{continue}{location}{file} ) { $self->continue_file; }
-
-			# when ( $_ eq 'error' )        { $self->{list}->SetItemTextColour( $index, RED ); }
 			default { $self->received( $self->{perl_scalar} ); }
-
 		}
 	}
 	return;
