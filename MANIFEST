@@ -1,5 +1,6 @@
 Bullwinkle-Client.fbp
 Changes
+Debian_CPANTS.txt
 ignore.txt
 inc/Module/Install.pm
 inc/Module/Install/Base.pm
@@ -32,10 +33,6 @@ scripts/client.pl
 scripts/iothreadsrv.pl
 scripts/server.pl
 t/00.load.t
-t/02-pod.t
-t/03-pod-coverage.t
-t/05-Server.t
-t/06-Client.t
 t/13-server_parameters.t
 t/16-server_io.t
 t/22-client_commands.t
@@ -44,7 +41,13 @@ t/24-client_role_connected.t
 t/26-client_io.t
 t/27-client_main.t
 t/28-client.t
-t/70-changes.t
 t/80-perlcritic.t
+t/82-changes.t
+t/83-pod.t
+t/84-podcoverage.t
+t/85-meta.t
+t/86-hasversion.t
+t/87-distmanifest.t
+t/88-kwalitee.t
 t/90-test_role_01.t
 t/91-test_fork_01.t
