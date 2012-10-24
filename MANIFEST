@@ -32,7 +32,7 @@ README.md
 scripts/client.pl
 scripts/iothreadsrv.pl
 scripts/server.pl
-t/00.load.t
+t/00-load.t
 t/13-server_parameters.t
 t/16-server_io.t
 t/22-client_commands.t
@@ -41,6 +41,9 @@ t/24-client_role_connected.t
 t/26-client_io.t
 t/27-client_main.t
 t/28-client.t
+t/30-io_connect_quit.t
+t/31-io_status.t
+t/32-io_plain_text.t
 t/80-perlcritic.t
 t/82-changes.t
 t/83-pod.t

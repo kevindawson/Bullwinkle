@@ -30,7 +30,7 @@ Bullwinkle::Server::Role::Listening.
 
 =head1 VERSION
 
-version  0.01_04
+version 0.01_05
 
 =head1 DESCRIPTION
 

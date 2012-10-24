@@ -13,7 +13,7 @@ has 'init' => (
 		return {
 			init => {
 				language         => 'perl',
-				protocol_version => '2.0',
+				protocol_version 0.01_05
 				fileuri          => 'file://path/to/file',
 			},
 		};
@@ -99,7 +99,7 @@ Bullwinkle::Server::Response.
 
 =head1 VERSION
 
-version  0.01_04
+version 0.01_05
 
 =head1 DESCRIPTION
 
