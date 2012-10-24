@@ -33,12 +33,6 @@ sub OnInit {
 	return 1;
 }
 
-sub DESTROY {
-	my $self = shift;
-	return;
-}
-
-
 
 1; # Magic true value required at end of module
 
