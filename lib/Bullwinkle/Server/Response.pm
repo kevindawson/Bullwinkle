@@ -13,7 +13,7 @@ has 'init' => (
 		return {
 			init => {
 				language         => 'perl',
-				protocol_version 0.01_05
+				protocol_version => '2.0',
 				fileuri          => 'file://path/to/file',
 			},
 		};
