@@ -37,22 +37,45 @@ has 'received' => (
 	default => sub {
 		my $self = shift;
 
-		return { 
-			recived => 'with thanks', 
-			echo => 'echo', 
-			};
+		return {
+			recived => 'with thanks',
+			echo    => 'echo',
+		};
 	},
 );
-has 'status' => (
+has 'status_ready' => (
 	is      => 'ro',
 	default => sub {
 		my $self = shift;
 
 		return {
 			response => {
-				command => 'status',
-				status  => 'running',
-				reason  => 'ok',
+				status => 'ready',
+			},
+		};
+	},
+);
+has 'status_error' => (
+	is      => 'ro',
+	default => sub {
+		my $self = shift;
+
+		return {
+			response => {
+				status => 'error',
+				error  => 20,
+			},
+		};
+	},
+);
+has 'status_paused' => (
+	is      => 'ro',
+	default => sub {
+		my $self = shift;
+
+		return {
+			response => {
+				status => 'paused',
 			},
 		};
 	},
@@ -90,6 +113,30 @@ has 'quit' => (
 1;
 
 __END__
+
+has 'status' => (
+	is      => 'ro',
+	default => sub {
+		my $self = shift;
+
+		return {
+			response => {
+				command => 'status',
+				status  => 'running',
+				reason  => 'ok',
+			},
+		};
+	},
+);
+
+
+
+
+
+
+
+
+
 
 =pod
 
