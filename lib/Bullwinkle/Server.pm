@@ -151,13 +151,11 @@ sub status {
 	my $self   = shift;
 	my $status = shift;
 
-	# p $status;
 	given ( int(rand(3)) ) {
 		when ( $_ eq '0' ) { $self->json_to_client( $self->{response}->status_ready ) }
 		when ( $_ eq '1' ) { $self->json_to_client( $self->{response}->status_error ) }
 		when ( $_ eq '2' ) { $self->json_to_client( $self->{response}->status_paused ) }
 		}
-	# $self->json_to_client( $self->{response}->status );
 	return;
 }
 
