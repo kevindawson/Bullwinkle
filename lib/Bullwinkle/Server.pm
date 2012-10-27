@@ -87,6 +87,7 @@ sub check_data {
 
 	try {
 		$self->{perl_scalar} = JSON::XS->new->utf8->decode($data) // undef;
+
 		# say Data::Dumper::Dumper( JSON::XS->new->utf8->decode($data) );
 	}
 	catch {
@@ -108,7 +109,7 @@ sub send_response {
 
 		given ( $self->{perl_scalar} ) {
 			when ( defined $self->{perl_scalar}->{quit} ) { $self->close_socket; last; }
-			when ( defined $self->{perl_scalar}->{status} )                   { $self->status( $self->{perl_scalar} ) }
+			when ( defined $self->{perl_scalar}->{status} ) { $self->status( $self->{perl_scalar} ) }
 			when ( defined $self->{perl_scalar}->{continue}{location}{file} ) { $self->continue_file; }
 			default { $self->received( $self->{perl_scalar} ); }
 		}
@@ -151,7 +152,12 @@ sub status {
 	my $status = shift;
 
 	# p $status;
-	$self->json_to_client( $self->{response}->status );
+	given ( int(rand(3)) ) {
+		when ( $_ eq '0' ) { $self->json_to_client( $self->{response}->status_ready ) }
+		when ( $_ eq '1' ) { $self->json_to_client( $self->{response}->status_error ) }
+		when ( $_ eq '2' ) { $self->json_to_client( $self->{response}->status_paused ) }
+		}
+	# $self->json_to_client( $self->{response}->status );
 	return;
 }
 
@@ -166,8 +172,10 @@ sub received {
 	my $self   = shift;
 	my $echo   = shift;
 	my $output = $self->{response}->received;
+
 	# p $output;
 	$output->{echo} = $echo;
+
 	# p $output;
 	$self->json_to_client($output);
 	return;
