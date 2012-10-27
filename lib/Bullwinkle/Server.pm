@@ -171,10 +171,8 @@ sub received {
 	my $echo   = shift;
 	my $output = $self->{response}->received;
 
-	# p $output;
 	$output->{echo} = $echo;
 
-	# p $output;
 	$self->json_to_client($output);
 	return;
 }
