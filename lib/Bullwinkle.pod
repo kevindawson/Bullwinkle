@@ -5,7 +5,7 @@ Bullwinkle - "This time, for sure!" Bullwinkle.
 
 =head1 VERSION
 
-This document describes Bullwinkle version  0.01_04
+This document describes Bullwinkle version  0.01_05
 
 
 =head1 SYNOPSIS
