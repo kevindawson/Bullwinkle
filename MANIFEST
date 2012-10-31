@@ -52,5 +52,3 @@ t/85-meta.t
 t/86-hasversion.t
 t/87-distmanifest.t
 t/88-kwalitee.t
-t/90-test_role_01.t
-t/91-test_fork_01.t
