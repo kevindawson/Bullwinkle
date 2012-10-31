@@ -5,6 +5,10 @@ Revision history for Bullwinkle
  - Update Changes to CPAN::Changes::Spec [bde5532]
  - randomly select a status responses to correspond to wiki page [30bb6fa]
  - remove some unwanted comments [71991a0]
+ - update version in files not covered by script [470dc21]
+ - added a cpan_bullwinkle to scripts as per bullwinkle-004a to install
+   dependancies to local lib [f8f3971]
+ - clean and tidy old and unwanted comments from file [a154dd5]
 
 0.01_05 2012-10-21
  - Improve Basic POD coverage
