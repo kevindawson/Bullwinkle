@@ -6,17 +6,11 @@ use Test::Deep;
 use Test::SharedFork;
 
 use JSON::XS;
-use Data::Printer {
-	caller_info => 1,
-	colored     => 1,
-};
 
 #runup client
 use Bullwinkle::Client::IO;
 my $client = Bullwinkle::Client::IO->new();
 if ( $client->is_connected ) { $client->disconnect }
-
-# is( $client->is_connected, 0, 'Should Not be connected to server now' );
 
 use_ok('Bullwinkle::Client::Commands');
 my $commands = Bullwinkle::Client::Commands->new;
@@ -39,27 +33,12 @@ if ($server) {
 		my $data_packet = $client->receive;
 		$client->send( JSON::XS->new->utf8->encode( $commands->status ) . "\n" );
 		$data_packet = $client->receive;
-		# p $data_packet;
-		ok( my $perl_scalar = JSON::XS->new->utf8->decode($data_packet), 'recived a valid JSON message' );
-		# p $perl_scalar;
-		# like ($perl_scalar, qr/status/, 'we got a Status response message');
-		my $status = re('^ready|paused|error$');
 
-		cmp_deeply( $perl_scalar->{response}->{status},	$status, 'we got a Status response message' );
-		# cmp_deeply(
-			# $perl_scalar,
-			# {   response => {
-					# status  => $status,
-					# $error
-					
-					# # command => 'status',
-					# # reason  => 'ok',
-				# # },
-			# },
-			# 'we got a Status response message'
-		# );
-		# cmp_deeply( $perl_scalar,{re('status')}, 'we got a Status response message');
-		
+		ok( my $perl_scalar = JSON::XS->new->utf8->decode($data_packet), 'recived a valid JSON message' );
+
+		my $status = re('^ready|paused|error$');
+		cmp_deeply( $perl_scalar->{response}->{status}, $status, 'we got a Status response message' );
+
 		$client->disconnect;
 
 	} elsif ($pid) {
