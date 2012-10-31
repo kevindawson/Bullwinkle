@@ -42,17 +42,24 @@ if ($server) {
 		# p $data_packet;
 		ok( my $perl_scalar = JSON::XS->new->utf8->decode($data_packet), 'recived a valid JSON message' );
 		# p $perl_scalar;
-		cmp_deeply(
-			$perl_scalar,
-			{   response => {
-					status  => 'running',
-					command => 'status',
-					reason  => 'ok',
-				},
-			},
-			'we got a Status response message '
-		);
+		# like ($perl_scalar, qr/status/, 'we got a Status response message');
+		my $status = re('^ready|paused|error$');
 
+		cmp_deeply( $perl_scalar->{response}->{status},	$status, 'we got a Status response message' );
+		# cmp_deeply(
+			# $perl_scalar,
+			# {   response => {
+					# status  => $status,
+					# $error
+					
+					# # command => 'status',
+					# # reason  => 'ok',
+				# # },
+			# },
+			# 'we got a Status response message'
+		# );
+		# cmp_deeply( $perl_scalar,{re('status')}, 'we got a Status response message');
+		
 		$client->disconnect;
 
 	} elsif ($pid) {
