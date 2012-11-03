@@ -11,6 +11,7 @@ use feature 'unicode_strings';
 use autodie;
 use diagnostics;
 
+our $VERSION = '0.01_06';
 
 say 'START';
 

@@ -4,7 +4,7 @@ use v5.10;
 use Moo;
 use English qw( -no_match_vars ); # Avoids regex performance penalty
 local $OUTPUT_AUTOFLUSH = 1;
-our $VERSION = '0.01_05';
+our $VERSION = '0.01_06';
 
 has 'init' => (
 	is      => 'ro',
@@ -146,7 +146,7 @@ Bullwinkle::Server::Response.
 
 =head1 VERSION
 
-version 0.01_05
+version 0.01_06
 
 =head1 DESCRIPTION
 

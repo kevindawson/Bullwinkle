@@ -27,7 +27,7 @@ use constant {
 	BLANK => qq{ },
 	NONE  => q{},
 };
-our $VERSION = '0.01_05';
+our $VERSION = '0.01_06';
 use parent qw(
 	Bullwinkle::Client::FBP::Main
 );
@@ -282,7 +282,7 @@ Bullwinkle::Client::Main - [One line description of module's purpose here]
 
 =head1 VERSION
 
-This document describes Bullwinkle::Client::Main version 0.01_05
+This document describes Bullwinkle::Client::Main version 0.01_06
 
 
 =head1 SYNOPSIS
@@ -383,7 +383,7 @@ Bullwinkle::Server requires no configuration files or environment variables.
 
 =for author to fill in:
     A list of all the other modules that this module relies upon,
-    including any restrictions on version 0.01_05
+    including any restrictions on version 0.01_06
     the module is part of the standard Perl distribution, part of the
     module's distribution, or must be installed separately. ]
 

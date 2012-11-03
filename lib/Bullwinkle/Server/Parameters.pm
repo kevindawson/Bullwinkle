@@ -1,7 +1,7 @@
 package Bullwinkle::Server::Parameters;
 
 use v5.10;
-our $VERSION = '0.01_05';
+our $VERSION = '0.01_06';
 use Moo;
 
 has 'api' => (
@@ -71,7 +71,7 @@ Bullwinkle::Server::Parameters.
 
 =head1 VERSION
 
-version 0.01_05
+version 0.01_06
 
 =head1 DESCRIPTION
 

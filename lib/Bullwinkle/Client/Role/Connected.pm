@@ -1,6 +1,6 @@
 package Bullwinkle::Client::Role::Connected;
 
-our $VERSION = '0.01_05';
+our $VERSION = '0.01_06';
 use Moo::Role;
 
 use constant {
@@ -30,7 +30,7 @@ Bullwinkle::Client::Role::Connected.
 
 =head1 VERSION
 
-version 0.01_05
+version 0.01_06
 
 =head1 DESCRIPTION
 

@@ -1,6 +1,8 @@
-Revision history for Bullwinkle
+Revision history for Bullwinkle - This time, for sure!
 
 {{$NEXT}}
+
+0.01_06 2012-11-03
  - Update Changes to CPAN::Changes::Spec [abb591e]
  - Update Changes to CPAN::Changes::Spec [bde5532]
  - randomly select a status responses to correspond to wiki page [30bb6fa]
@@ -9,6 +11,7 @@ Revision history for Bullwinkle
  - added a cpan_bullwinkle to scripts as per bullwinkle-004a to install
    dependancies to local lib [f8f3971]
  - clean and tidy old and unwanted comments from file [a154dd5]
+ - clean up server exit when sent a quit [c89ffcc]
 
 0.01_05 2012-10-21
  - Improve Basic POD coverage

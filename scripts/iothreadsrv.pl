@@ -4,7 +4,7 @@
 use v5.10;
 use warnings;
 use strict;
-our $VERSION = '0.01_05';
+our $VERSION = '0.01_06';
 use Carp::Always::Color;
 use Carp 1.20 qw(carp croak);
 use Try::Tiny;

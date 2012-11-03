@@ -3,7 +3,7 @@ package Bullwinkle::Client::Commands;
 use v5.10;
 use English qw( -no_match_vars ); # Avoids regex performance penalty
 local $OUTPUT_AUTOFLUSH = 1;
-our $VERSION = '0.01_05';
+our $VERSION = '0.01_06';
 
 use Moo;
 has 'status' => (
@@ -91,7 +91,7 @@ Bullwinkle::Client::Commands
 
 =head1 VERSION
 
-version 0.01_05
+version 0.01_06
 
 =head1 DESCRIPTION
 
