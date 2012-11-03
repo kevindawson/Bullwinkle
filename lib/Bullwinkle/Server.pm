@@ -108,7 +108,7 @@ sub send_response {
 	if ( $self->check_data($data) ) {
 
 		given ( $self->{perl_scalar} ) {
-			when ( defined $self->{perl_scalar}->{quit} ) { $self->close_socket; last; }
+			when ( defined $self->{perl_scalar}->{quit} ) { $self->close_socket; }
 			when ( defined $self->{perl_scalar}->{status} ) { $self->status( $self->{perl_scalar} ) }
 			when ( defined $self->{perl_scalar}->{continue}{location}{file} ) { $self->continue_file; }
 			default { $self->received( $self->{perl_scalar} ); }
@@ -143,7 +143,8 @@ sub close_socket {
 	say 'closing socket';
 	$self->json_to_client( $self->{response}->quit );
 	close $self->{socket} or carp;
-	say 'so long and thanks for all the fish';
+	say "\tso long and thanks for all the fish!\n";
+	exit(0);
 	return;
 }
 
