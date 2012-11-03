@@ -44,10 +44,10 @@ sub start_connection {
 				PeerAddr => $self->{host},
 				PeerPort => $self->{port},
 				Proto    => $self->{porto} // 'tcp',
-
-			) or carp "Could not connect to host 127.0.0.1:9000 ->$ERRNO";
-			$self->connected(TRUE);
-		};
+			); # or carp "Could not connect to host 127.0.0.1:9000 ->$ERRNO";
+			
+			$self->connected(TRUE) if $self->{client_socket};
+		}
 
 	}
 
