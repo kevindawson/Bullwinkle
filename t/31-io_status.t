@@ -34,7 +34,7 @@ if ($server) {
 		$client->send( JSON::XS->new->utf8->encode( $commands->status ) . "\n" );
 		$data_packet = $client->receive;
 
-		ok( my $perl_scalar = JSON::XS->new->utf8->decode($data_packet), 'recived a valid JSON message' );
+		ok( my $perl_scalar = JSON::XS->new->utf8->decode($data_packet), 'received a valid JSON message' );
 
 		my $status = re('^ready|paused|error$');
 		cmp_deeply( $perl_scalar->{response}->{status}, $status, 'we got a Status response message' );
