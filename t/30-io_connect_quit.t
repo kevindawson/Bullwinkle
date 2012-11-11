@@ -34,7 +34,7 @@ if ($server) {
 		my $data_packet = $client->receive;
 
 		# p $data_packet;
-		ok( my $perl_scalar = JSON::XS->new->utf8->decode($data_packet), 'recived a valid JSON message' );
+		ok( my $perl_scalar = JSON::XS->new->utf8->decode($data_packet), 'recieved a valid JSON message' );
 
 		# p $perl_scalar;
 		cmp_deeply(

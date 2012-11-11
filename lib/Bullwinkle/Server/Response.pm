@@ -38,7 +38,7 @@ has 'received' => (
 		my $self = shift;
 
 		return {
-			recived => 'with thanks',
+			received => 'with thanks',
 			echo    => 'echo',
 		};
 	},
