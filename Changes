@@ -12,6 +12,10 @@ Revision history for Bullwinkle - This time, for sure!
  - add info_line and info_program [907c01a]
  - add info_line and info_program [345a91a]
  - add info_line and info_program [22b7cf2]
+ - Update Changes [d907cfc]
+ - send a more relistice init response [43ada02]
+ - sort out connect, disconect and quit so that the pannel show the perl
+   and json message packets [8c02955]
 
 0.01_06 2012-11-03
  - Update Changes to CPAN::Changes::Spec [abb591e]
