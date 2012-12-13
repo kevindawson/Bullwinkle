@@ -19,7 +19,7 @@ $Data::Dumper::Terse  = 1;
 $Data::Dumper::Indent = 1;
 
 use Data::Printer {
-	caller_info => 0,
+	caller_info => 1,
 	colored     => 1,
 };
 use constant {
@@ -106,13 +106,27 @@ sub send_response {
 	my $data = shift;
 
 	if ( $self->check_data($data) ) {
-
+		
+		p $self->{perl_scalar};
+		p $self->{perl_scalar}{command};
+		if ( $self->{perl_scalar}{command} ) {
+		given ( $self->{perl_scalar}{command} ) {
+			when ( /quit/ ) { $self->close_socket; }
+			when ( /continue/ ) { $self->continue_file; }
+			when ( /info_line/ ) { $self->info_line; }
+			when ( /info_program/ ) { $self->info_program; }
+			# when ( defined $self->{perl_scalar}->{status} ) { $self->status( $self->{perl_scalar} ) }
+			# when ( defined $self->{perl_scalar}->{continue}{location}{file} ) { $self->continue_file; }
+			# default { $self->received( $self->{perl_scalar} ); }
+		}
+	} else {
 		given ( $self->{perl_scalar} ) {
-			when ( defined $self->{perl_scalar}->{quit} ) { $self->close_socket; }
+			# when ( defined $self->{perl_scalar}->{quit} ) { $self->close_socket; }
 			when ( defined $self->{perl_scalar}->{status} ) { $self->status( $self->{perl_scalar} ) }
 			when ( defined $self->{perl_scalar}->{continue}{location}{file} ) { $self->continue_file; }
 			default { $self->received( $self->{perl_scalar} ); }
 		}
+	}
 	}
 	return;
 }
@@ -166,6 +180,17 @@ sub continue_file {
 	return;
 }
 
+sub info_line {
+	my $self = shift;
+	$self->json_to_client( $self->{response}->info_line );
+	return;
+}
+
+sub info_program {
+	my $self = shift;
+	$self->json_to_client( $self->{response}->info_program );
+	return;
+}
 
 sub received {
 	my $self   = shift;
