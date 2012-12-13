@@ -1,6 +1,17 @@
 Revision history for Bullwinkle - This time, for sure!
 
 {{$NEXT}}
+ - bump version to 0.01_06 [3a67ed7]
+ - we don't die any more if client can't connect to a server, as we are a
+   gui [7eaee9c]
+ - spelling opps [bd9600b]
+ - doing a commit sa as to do merge [777a6c2]
+ - add info_line and info_program [fc6777a]
+ - add info_line and info_program [ec0d778]
+ - add info_line and info_program [5416f62]
+ - add info_line and info_program [907c01a]
+ - add info_line and info_program [345a91a]
+ - add info_line and info_program [22b7cf2]
 
 0.01_06 2012-11-03
  - Update Changes to CPAN::Changes::Spec [abb591e]
