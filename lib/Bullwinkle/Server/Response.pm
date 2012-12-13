@@ -11,11 +11,16 @@ has 'init' => (
 	default => sub {
 		my $self = shift;
 		return {
-			init => {
-				language         => 'perl',
-				protocol_version => '2.0',
-				fileuri          => 'file://path/to/file',
+			location => {
+				canonic_filename => '/home/kevin/GitHub/Bullwinkle/scripts/rocky001.pl',
+				line_number      => 10,
+				filename         => '/home/kevin/GitHub/Bullwinkle/scripts/rocky001.pl',
+				op_addr          => 151544232
 			},
+			text    => 'print "there!\\n";',
+			name    => 'stop_location',
+			event   => 'line',
+			package => 'main',
 		};
 	},
 );
