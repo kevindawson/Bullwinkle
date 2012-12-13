@@ -42,6 +42,7 @@ sub new {
 	my $self = $class->SUPER::new();
 
 	$self->_initialize(@args);
+
 	# p $self;
 
 	return $self;
@@ -152,10 +153,22 @@ sub on_decode_clicked {
 sub disconnect_from_server {
 	my $self = shift;
 
-	$self->{input_output}->disconnect;
+	#Tidy screen
+	$self->client_json->SetValue(BLANK);
+	$self->server_json->SetValue(BLANK);
+	$self->server_perl->SetValue(BLANK);
 
+	#update some pannels
+	$self->on_encode_clicked;
+	$self->on_send_clicked;
+
+	#send yes I know that we might have sent a quit, so what
 	$self->{send}->Disable;
-	$self->auto_run;
+
+	#close io
+	$self->{input_output}->disconnect;
+	$self->on_decode_clicked;
+
 	$self->{status_bar}->SetStatusText('Disconnected from Bullwinkle Server');
 	return;
 }
@@ -165,6 +178,11 @@ sub disconnect_from_server {
 #######
 sub connect_to_server {
 	my $self = shift;
+
+	$self->client_perl->SetValue(BLANK);
+	$self->client_json->SetValue(BLANK);
+
+	return if $self->{input_output}->is_connected;
 
 	$self->{input_output}->start_connection;
 
@@ -208,7 +226,6 @@ sub quit {
 	my $output = Data::Dumper::Dumper( $self->{commands}->quit );
 	$self->client_perl->SetValue($output);
 
-	$self->auto_run;
 	$self->disconnect_from_server;
 
 	return;
@@ -271,7 +288,7 @@ sub continue_file {
 	return;
 }
 
-sub info_line {	
+sub info_line {
 	my $self = shift;
 
 	my $output = Data::Dumper::Dumper( $self->{commands}->info_line );
@@ -281,7 +298,7 @@ sub info_line {
 	return;
 }
 
-sub info_program {	
+sub info_program {
 	my $self = shift;
 
 	my $output = Data::Dumper::Dumper( $self->{commands}->info_program );
