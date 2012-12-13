@@ -8,7 +8,7 @@ use strict;
 use warnings;
 use Wx 0.98 ':everything';
 
-our $VERSION = '0.01_06';
+our $VERSION = '0.01';
 our @ISA     = 'Wx::Frame';
 
 sub new {
@@ -265,10 +265,44 @@ sub new {
 		},
 	);
 
+	my $info_line = Wx::MenuItem->new(
+		$self->{m_menu3},
+		-1,
+		"Info Line",
+		'',
+		wxITEM_NORMAL,
+	);
+
+	Wx::Event::EVT_MENU(
+		$self,
+		$info_line,
+		sub {
+			shift->info_line(@_);
+		},
+	);
+
+	my $info_program = Wx::MenuItem->new(
+		$self->{m_menu3},
+		-1,
+		"Info Program",
+		'',
+		wxITEM_NORMAL,
+	);
+
+	Wx::Event::EVT_MENU(
+		$self,
+		$info_program,
+		sub {
+			shift->info_program(@_);
+		},
+	);
+
 	$self->{m_menu3}->Append( $continue_null );
 	$self->{m_menu3}->Append( $continue_function );
 	$self->{m_menu3}->Append( $continue_line );
 	$self->{m_menu3}->Append( $continue_file );
+	$self->{m_menu3}->Append( $info_line );
+	$self->{m_menu3}->Append( $info_program );
 
 	$self->{m_menubar2} = Wx::MenuBar->new(0);
 
@@ -393,6 +427,14 @@ sub continue_line {
 
 sub continue_file {
 	warn 'Handler method continue_file for event continue_file.OnMenuSelection not implemented';
+}
+
+sub info_line {
+	warn 'Handler method info_line for event info_line.OnMenuSelection not implemented';
+}
+
+sub info_program {
+	warn 'Handler method info_program for event info_program.OnMenuSelection not implemented';
 }
 
 1;
