@@ -271,6 +271,26 @@ sub continue_file {
 	return;
 }
 
+sub info_line {	
+	my $self = shift;
+
+	my $output = Data::Dumper::Dumper( $self->{commands}->info_line );
+	$self->client_perl->SetValue($output);
+	$self->auto_run;
+
+	return;
+}
+
+sub info_program {	
+	my $self = shift;
+
+	my $output = Data::Dumper::Dumper( $self->{commands}->info_program );
+	$self->client_perl->SetValue($output);
+	$self->auto_run;
+
+	return;
+}
+
 1;
 
 __END__
