@@ -19,6 +19,90 @@ has 'quit' => (
 	is      => 'ro',
 	default => sub {
 		my $self = shift;
+
+		return {
+			command => 'quit',
+		};
+	},
+);
+has 'continue_null' => (
+	is      => 'ro',
+	default => sub {
+		my $self = shift;
+
+		return {
+			command => 'continue',
+		};
+	},
+);
+has 'continue_function' => (
+	is      => 'ro',
+	default => sub {
+		my $self = shift;
+
+		return {
+			command  => 'continue',
+			location => {
+				function => 'gcd'
+			},
+		};
+	},
+);
+has 'continue_line' => (
+	is      => 'ro',
+	default => sub {
+		my $self = shift;
+
+		return {
+			command  => 'continue',
+			location => {
+				line => '5'
+			},
+		};
+	},
+);
+has 'continue_file' => (
+	is      => 'ro',
+	default => sub {
+		my $self = shift;
+		return {
+			command  => 'continue',
+			location => {
+				file => 'mymodule.pm',
+				line => '5',
+			},
+		};
+	},
+);
+has 'info_line' => (
+	is      => 'ro',
+	default => sub {
+		my $self = shift;
+
+		return {
+			command => 'info_line',
+		};
+	},
+);
+has 'info_program' => (
+	is      => 'ro',
+	default => sub {
+		my $self = shift;
+
+		return {
+			command => 'info_program',
+		};
+	},
+);
+
+1;
+
+__END__
+
+has 'quit' => (
+	is      => 'ro',
+	default => sub {
+		my $self = shift;
 		return {
 			quit => 'so long',
 		};
@@ -34,55 +118,6 @@ has 'continue_null' => (
 		};
 	},
 );
-has 'continue_function' => (
-	is      => 'ro',
-	default => sub {
-		my $self = shift;
-
-		return {
-			continue => {
-				location => {
-					function => 'gcd',
-				},
-			},
-		};
-	},
-);
-has 'continue_line' => (
-	is      => 'ro',
-	default => sub {
-		my $self = shift;
-
-		return {
-			continue => {
-				location => {
-					line => '5',
-				},
-			},
-		};
-	},
-);
-has 'continue_file' => (
-	is      => 'ro',
-	default => sub {
-		my $self = shift;
-
-		return {
-			continue => {
-				location => {
-					file => 'mymodule.pm',
-					line => '5',
-				},
-			},
-		};
-	},
-);
-
-
-1;
-
-__END__
-
 =pod
 
 =head1 NAME
