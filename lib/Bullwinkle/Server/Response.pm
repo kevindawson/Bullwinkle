@@ -39,7 +39,7 @@ has 'received' => (
 
 		return {
 			received => 'with thanks',
-			echo    => 'echo',
+			echo     => 'echo',
 		};
 	},
 );
@@ -92,6 +92,35 @@ has 'continue_file' => (
 					line => '5',
 				},
 			},
+		};
+	},
+);
+has 'info_line' => (
+	is      => 'ro',
+	default => sub {
+		my $self = shift;
+
+		return {
+			name     => 'info_line',
+			location => {
+				canonic_filename => '/home/kevin/GitHub/Bullwinkle/scripts/rocky001.pl',
+				line_number      => 10,
+				filename         => 'scripts/rocky001.pl',
+				op_addr          => 'print "there!\\n";',
+			},
+		};
+	},
+);
+has 'info_program' => (
+	is      => 'ro',
+	default => sub {
+		my $self = shift;
+
+		return {
+			name    => 'info_program',
+			address => 153997736,
+			event   => 'line',
+			program => '/home/kevin/GitHub/Bullwinkle/scripts/rocky001.pl',
 		};
 	},
 );
