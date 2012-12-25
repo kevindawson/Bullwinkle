@@ -2,6 +2,7 @@ package Bullwinkle::Server::Response;
 
 use v5.10;
 use Moo;
+use JSON::Types;
 use English qw( -no_match_vars ); # Avoids regex performance penalty
 local $OUTPUT_AUTOFLUSH = 1;
 our $VERSION = '0.01_06';
@@ -13,9 +14,9 @@ has 'init' => (
 		return {
 			location => {
 				canonic_filename => '/home/kevin/GitHub/Bullwinkle/scripts/rocky001.pl',
-				line_number      => 10,
+				line_number      => JSON::Types::number(10),
 				filename         => '/home/kevin/GitHub/Bullwinkle/scripts/rocky001.pl',
-				op_addr          => 151544232
+				op_addr          => JSON::Types::number(151544232)
 			},
 			text    => 'print "there!\\n";',
 			name    => 'stop_location',
@@ -31,7 +32,7 @@ has 'bullwinkle' => (
 
 		return {
 			bullwinkle => {
-				error   => '90',
+				error   => JSON::Types::number(90),
 				message => 'Encoding not supported, Bullwinkle only talks in JSON',
 			}
 		};
@@ -68,7 +69,7 @@ has 'status_error' => (
 		return {
 			response => {
 				status => 'error',
-				error  => 20,
+				error  => JSON::Types::number(20),
 			},
 		};
 	},
@@ -94,7 +95,7 @@ has 'continue_file' => (
 			continue => {
 				location => {
 					file => 'mymodule.pm',
-					line => '5',
+					line => JSON::Types::number(5),
 				},
 			},
 		};
@@ -109,7 +110,7 @@ has 'info_line' => (
 			name     => 'info_line',
 			location => {
 				canonic_filename => '/home/kevin/GitHub/Bullwinkle/scripts/rocky001.pl',
-				line_number      => 10,
+				line_number      => JSON::Types::number(10),
 				filename         => 'scripts/rocky001.pl',
 				op_addr          => 'print "there!\\n";',
 			},
@@ -123,7 +124,7 @@ has 'info_program' => (
 
 		return {
 			name    => 'info_program',
-			address => 153997736,
+			address => JSON::Types::number(153997736),
 			event   => 'line',
 			program => '/home/kevin/GitHub/Bullwinkle/scripts/rocky001.pl',
 		};
