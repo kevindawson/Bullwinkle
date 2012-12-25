@@ -6,6 +6,7 @@ local $OUTPUT_AUTOFLUSH = 1;
 our $VERSION = '0.01_06';
 
 use Moo;
+use JSON::Types;
 has 'status' => (
 	is      => 'ro',
 	default => sub {
@@ -56,7 +57,7 @@ has 'continue_line' => (
 		return {
 			command  => 'continue',
 			location => {
-				line => '5'
+				line => JSON::Types::number(5),
 			},
 		};
 	},
@@ -69,7 +70,7 @@ has 'continue_file' => (
 			command  => 'continue',
 			location => {
 				file => 'mymodule.pm',
-				line => '5',
+				line => JSON::Types::number(5),
 			},
 		};
 	},
