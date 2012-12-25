@@ -16,6 +16,10 @@ Revision history for Bullwinkle - This time, for sure!
  - send a more relistice init response [43ada02]
  - sort out connect, disconect and quit so that the pannel show the perl
    and json message packets [8c02955]
+ - Update Changes [d7803a5]
+ - advent inspired JSON::Types::number [c88a5dd]
+ - advent inspired JSON::Types::number [b20f341]
+ - add another dependancy [f9aee97]
 
 0.01_06 2012-11-03
  - Update Changes to CPAN::Changes::Spec [abb591e]
